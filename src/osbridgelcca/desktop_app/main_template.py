@@ -9,25 +9,25 @@ from PySide6.QtGui import (QAction,QFont, QFontDatabase, QIcon)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QTextEdit, QScrollArea, QSpacerItem, QSizePolicy,
     QMenu, QMenuBar, QPushButton, QWidget, QLabel, QVBoxLayout, QGridLayout, QLineEdit, QComboBox)
 
-from widgets.title_bar import CustomTitleBar
-from widgets.project_details_right_widget import ProjectDetailsWidget
-from widgets.tutorial_widget_left import TutorialWidget
-from widgets.results_widget import ResultsWidget
-from widgets.comparison_widget import ComparisonWidget
-from widgets.structure_works_data.foundation_widget import Foundation
-from widgets.structure_works_data.super_structure_widget import SuperStructure
-from widgets.structure_works_data.sub_structure_widget import SubStructure
-from widgets.structure_works_data.auxiliary_works_widget import AuxiliaryWorks
-from widgets.financial_data import FinancialData
-from widgets.carbon_emission_data.carbon_emission_data import CarbonEmissionData
-from widgets.carbon_emission_data.carbon_emission_cost_data import CarbonEmissionCostData
-from widgets.bridge_and_traffic_data import BridgeAndTrafficData
-from widgets.maintenance_repair_data import MaintenanceRepairData
-from widgets.demolition_and_recycling_data import DemolitionAndRecyclingData
-from widgets.project_details_left_widget import ProjectDetailsLeft
-from widgets.tab_widget import CustomTabWidget
-from widgets.utils.data import *
-from widgets.utils.database import DatabaseManager
+from .widgets.title_bar import CustomTitleBar
+from .widgets.project_details_right_widget import ProjectDetailsWidget
+from .widgets.tutorial_widget_left import TutorialWidget
+from .widgets.results_widget import ResultsWidget
+from .widgets.comparison_widget import ComparisonWidget
+from .widgets.structure_works_data.foundation_widget import Foundation
+from .widgets.structure_works_data.super_structure_widget import SuperStructure
+from .widgets.structure_works_data.sub_structure_widget import SubStructure
+from .widgets.structure_works_data.auxiliary_works_widget import AuxiliaryWorks
+from .widgets.financial_data import FinancialData
+from .widgets.carbon_emission_data.carbon_emission_data import CarbonEmissionData
+from .widgets.carbon_emission_data.carbon_emission_cost_data import CarbonEmissionCostData
+from .widgets.bridge_and_traffic_data import BridgeAndTrafficData
+from .widgets.maintenance_repair_data import MaintenanceRepairData
+from .widgets.demolition_and_recycling_data import DemolitionAndRecyclingData
+from .widgets.project_details_left_widget import ProjectDetailsLeft
+from .widgets.tab_widget import CustomTabWidget
+from .widgets.utils.data import *
+from .widgets.utils.database import DatabaseManager
 
 from PySide6.QtWidgets import QStackedWidget
 
