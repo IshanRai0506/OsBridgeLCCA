@@ -1,3 +1,10 @@
+# ============================
+# LCCA MODE – SAFE DEFAULTS
+# ============================
+
+KEY_DP_FAB_FIELD = "FIELD"
+KEY_DP_FAB_SHOP = "SHOP"
+
 #from .utils.common.is800_2007 import *
 from pylatex import Math
 from pylatex.utils import NoEscape
