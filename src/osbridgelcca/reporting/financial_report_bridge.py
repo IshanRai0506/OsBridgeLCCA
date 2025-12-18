@@ -1,4 +1,4 @@
-from osbridgelcca.reportGenerator_latex import CreateLatex
+from ..reportGenerator_latex import CreateLatex
 
 def generate_financial_pdf(financial_data, time_cost):
     """
