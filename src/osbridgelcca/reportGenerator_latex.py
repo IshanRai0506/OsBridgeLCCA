@@ -18,7 +18,7 @@ from pylatex.package import Package
 from pylatex import Document, PageStyle, Head, MiniPage, Foot, LargeText, MediumText, LineBreak, simple_page_number, NewPage
 from importlib.resources import files
 from .Report_functions import *
-from ..utils.common.common_calculation import *
+#from ..utils.common.common_calculation import *
 # from ..Common import *
 # from ..utils.common import component
 
