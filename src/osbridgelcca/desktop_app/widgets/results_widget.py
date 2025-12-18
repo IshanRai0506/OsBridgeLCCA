@@ -8,8 +8,14 @@ from PySide6.QtWidgets import (QHBoxLayout, QTextEdit, QScrollArea, QSpacerItem,
 import sys
 
 # using the d3js graphing library to plot the graph, it is downloaded locally and saved in the same directory as that of this graph script
-with open(r"dependencies/d3js.js", "r", encoding="utf-8") as f:
-    d3_js = f.read()
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+d3js_path = os.path.join(BASE_DIR, "dependencies", "d3js.js")
+
+with open(d3js_path, "r", encoding="utf-8") as f:
+    d3js = f.read()
+
 
 class ResultsWidget(QWidget):
     closed = Signal()
