@@ -348,11 +348,11 @@ class FinancialData(QWidget):
 
         # calculate Time Cost
         self.database_manager.calculate_time_cost()
-        # Generate Financial LCCA Report using TinyTeX
-        generate_financial_pdf(
-            financial_data=data,
-            time_cost=self.database_manager.time_cost
-        )
+        # --- Generate Financial LCCA Report (TinyTeX) ---
+        from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
+        pdf_path = generate_financial_pdf(data)
+        print("✅ Financial LCCA PDF generated at:", pdf_path)
+
 
 
 #----------------Standalone-Test-Code--------------------------------
