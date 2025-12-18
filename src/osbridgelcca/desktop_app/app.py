@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QCoreApplication, Qt
-from main_template import UiMainWindow
+from .main_template import UiMainWindow
 import sys
 
 class MyMainWindow(QMainWindow):
