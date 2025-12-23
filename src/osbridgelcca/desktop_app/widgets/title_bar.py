@@ -66,14 +66,19 @@ class CustomTitleBar(QWidget):
         self.btn_size = QSize(46, 30)
 
         # Helper function to create a styled button
-        def create_button(icon_svg, is_close=False):
+        def create_button(icon_path, is_close=False):
             btn = QPushButton()
             btn.setFixedSize(self.btn_size)
-            btn.setIcon(QIcon(QPixmap.fromImage(QPixmap(icon_svg).toImage())))
+
+            icon = QIcon(icon_path)
+            btn.setIcon(icon)
             btn.setIconSize(QSize(14, 14))
+
             if is_close:
-                btn.setObjectName("close_button")
-            return btn
+               btn.setObjectName("close_button")
+
+             return btn
+
 
         # Control buttons
         self.minimize_button = create_button("resources/window_minimize.svg")
