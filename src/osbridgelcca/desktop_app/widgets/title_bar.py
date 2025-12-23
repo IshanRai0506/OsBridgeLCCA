@@ -4,86 +4,124 @@ from PySide6.QtWidgets import QHBoxLayout, QPushButton, QWidget, QLabel
 
 
 class CustomTitleBar(QWidget):
+    """
+    Custom title bar for a frameless QMainWindow
+    Supports dragging, minimize, maximize/restore, close
+    """
+
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent_window = parent
 
-        self.setFixedHeight(30)
         self.setObjectName("custom_title_bar")
+        self.setFixedHeight(30)
 
+        # ---------------- STYLE ----------------
         self.setStyleSheet("""
             #custom_title_bar {
                 background-color: #45913E;
             }
-            QLabel {
+            #custom_title_bar QLabel {
                 color: white;
                 font-weight: bold;
             }
-            QPushButton {
+            #custom_title_bar QPushButton {
                 background-color: #45913E;
                 border: none;
             }
-            QPushButton:hover {
+            #custom_title_bar QPushButton:hover {
                 background-color: #55a04c;
             }
-            QPushButton#close_button:hover {
+            #custom_title_bar QPushButton:pressed {
+                background-color: #3d7936;
+            }
+            #custom_title_bar QPushButton#close_button:hover {
                 background-color: #E81123;
+            }
+            #custom_title_bar QPushButton#close_button:pressed {
+                background-color: #F1707A;
             }
         """)
 
+        # ---------------- LAYOUT ----------------
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(5, 0, 5, 0)
+        layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
 
-        # App title
+        # Left spacer (optional icon area)
+        left_spacer = QLabel()
+        left_spacer.setFixedWidth(30)
+        layout.addWidget(left_spacer)
+
+        # Title
         self.title_label = QLabel("Life Cycle Cost Analysis")
         self.title_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.title_label, 1)
 
-        btn_size = QSize(40, 30)
+        # Button size
+        self.btn_size = QSize(46, 30)
 
-        def make_btn(icon_path, close=False):
+        # ---------------- BUTTON FACTORY ----------------
+        def create_button(icon_path, is_close=False):
             btn = QPushButton()
-            btn.setFixedSize(btn_size)
+            btn.setFixedSize(self.btn_size)
             btn.setIcon(QIcon(icon_path))
-            btn.setIconSize(QSize(12, 12))
-            if close:
+            btn.setIconSize(QSize(14, 14))
+            if is_close:
                 btn.setObjectName("close_button")
             return btn
 
-        self.min_btn = make_btn("resources/window_minimize.svg")
-        self.min_btn.clicked.connect(self.parent_window.showMinimized)
+        # Minimize
+        self.minimize_button = create_button("resources/window_minimize.svg")
+        self.minimize_button.clicked.connect(self.parent_window.showMinimized)
+        layout.addWidget(self.minimize_button)
 
-        self.max_btn = make_btn("resources/window_maximize.svg")
-        self.max_btn.clicked.connect(self.toggle_max_restore)
+        # Maximize / Restore
+        self.maximize_button = create_button("resources/window_maximize.svg")
+        self.maximize_button.clicked.connect(self.toggle_maximize_restore)
+        layout.addWidget(self.maximize_button)
 
-        self.close_btn = make_btn("resources/window_close.svg", close=True)
-        self.close_btn.clicked.connect(self.parent_window.close)
+        # Close
+        self.close_button = create_button("resources/window_close.svg", is_close=True)
+        self.close_button.clicked.connect(self.parent_window.close)
+        layout.addWidget(self.close_button)
 
-        layout.addWidget(self.min_btn)
-        layout.addWidget(self.max_btn)
-        layout.addWidget(self.close_btn)
+        # Drag support
+        self.start_pos = None
+        self.start_geometry = None
 
-        self._drag_pos = None
+    # ---------------- ICON SWITCH ----------------
+    def set_maximize_icon(self):
+        self.maximize_button.setIcon(QIcon("resources/window_maximize.svg"))
 
-    def toggle_max_restore(self):
+    def set_restore_icon(self):
+        self.maximize_button.setIcon(QIcon("resources/window_restore.svg"))
+
+    def toggle_maximize_restore(self):
         if self.parent_window.isMaximized():
             self.parent_window.showNormal()
-            self.max_btn.setIcon(QIcon("resources/window_maximize.svg"))
+            self.set_maximize_icon()
         else:
             self.parent_window.showMaximized()
-            self.max_btn.setIcon(QIcon("resources/window_restore.svg"))
+            self.set_restore_icon()
 
-    # Drag window
+    # ---------------- DRAGGING ----------------
     def mousePressEvent(self, event: QMouseEvent):
-        if event.button() == Qt.LeftButton:
-            self._drag_pos = event.globalPosition().toPoint()
+        if event.button() == Qt.LeftButton and not self.parent_window.isMaximized():
+            self.start_pos = event.globalPosition().toPoint()
+            self.start_geometry = self.parent_window.geometry()
+            event.accept()
 
     def mouseMoveEvent(self, event: QMouseEvent):
-        if self._drag_pos and not self.parent_window.isMaximized():
-            delta = event.globalPosition().toPoint() - self._drag_pos
-            self.parent_window.move(self.parent_window.pos() + delta)
-            self._drag_pos = event.globalPosition().toPoint()
+        if event.buttons() == Qt.LeftButton and self.start_pos:
+            delta = event.globalPosition().toPoint() - self.start_pos
+            self.parent_window.move(
+                self.start_geometry.x() + delta.x(),
+                self.start_geometry.y() + delta.y()
+            )
+            event.accept()
 
     def mouseReleaseEvent(self, event: QMouseEvent):
-        self._drag_pos = None
+        self.start_pos = None
+        self.start_geometry = None
+        event.accept()
