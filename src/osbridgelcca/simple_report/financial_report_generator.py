@@ -12,12 +12,12 @@ class FinancialReportGenerator:
 
         tex_file = self.output_dir / f"{filename}.tex"
 
-        content = self.template.read_text(encoding="utf-8")
+        content = self.template.read_text()
 
         for key, value in data.items():
             content = content.replace(f"<<{key}>>", str(value))
 
-        tex_file.write_text(content, encoding="utf-8")
+        tex_file.write_text(content)
 
         subprocess.run(
             ["pdflatex", "-interaction=nonstopmode", tex_file.name],
