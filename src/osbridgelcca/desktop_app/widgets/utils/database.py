@@ -25,7 +25,7 @@ class DatabaseManager:
         """
 
         # Instantiate IRC_SP_30
-        self.irc_sp_30 = IRC_SP_30()
+        #self.irc_sp_30 = IRC_SP_30()
 
         self.db_path = db_path
         self.conn = None

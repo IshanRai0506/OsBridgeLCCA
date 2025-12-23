@@ -11,11 +11,11 @@ import sys
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-d3js_path = os.path.join(BASE_DIR, "dependencies", "d3js.js")
+D3_PATH = os.path.join(BASE_DIR, "dependencies", "d3js.js")
 
-with open(d3js_path, "r", encoding="utf-8") as f:
-    d3js = f.read()
+with open(D3_PATH, "r", encoding="utf-8") as f:
 
+    d3_js = f.read()
 
 class ResultsWidget(QWidget):
     closed = Signal()

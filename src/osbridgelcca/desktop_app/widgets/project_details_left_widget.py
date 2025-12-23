@@ -4,10 +4,10 @@ from PySide6.QtWidgets import (QHBoxLayout, QPushButton, QTextEdit, QWidget, QLa
 from PySide6.QtGui import QIcon, QTextDocument
 import sys
 import os
-from widgets.structure_works_data.foundation_widget import Foundation
-from widgets.structure_works_data.super_structure_widget import SuperStructure
-from widgets.structure_works_data.sub_structure_widget import SubStructure
-from widgets.structure_works_data.auxiliary_works_widget import AuxiliaryWorks
+from .structure_works_data.foundation_widget import Foundation
+from .structure_works_data.super_structure_widget import SuperStructure
+from .structure_works_data.sub_structure_widget import SubStructure
+from .structure_works_data.auxiliary_works_widget import AuxiliaryWorks
 from PySide6.QtWidgets import QStackedWidget
 from .utils.data import *
 

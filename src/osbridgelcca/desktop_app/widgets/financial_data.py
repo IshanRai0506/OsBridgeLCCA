@@ -1,4 +1,3 @@
-from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QCoreApplication, Qt, QSize, Signal
 from PySide6.QtWidgets import (QHBoxLayout, QPushButton, QLineEdit, QComboBox, QGridLayout, QWidget, QLabel, QVBoxLayout, QScrollArea, QSpacerItem, QSizePolicy, QFrame)
@@ -348,11 +347,13 @@ class FinancialData(QWidget):
 
         # calculate Time Cost
         self.database_manager.calculate_time_cost()
-        # --- Generate Financial LCCA Report (TinyTeX) ---
+        # --- Generate Financial PDF Report ---
         from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
-        pdf_path = generate_financial_pdf(data)
-        print("✅ Financial LCCA PDF generated at:", pdf_path)
 
+        generate_financial_pdf(
+            self.database_manager.financial_data
+)
+        
 
 
 #----------------Standalone-Test-Code--------------------------------
