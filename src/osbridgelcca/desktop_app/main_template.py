@@ -132,6 +132,9 @@ class UiMainWindow(object):
         main_layout.setSpacing(0)
 
         # Add the custom title bar to the top of the main layout
+        import os
+        os.chdir(os.path.dirname(__file__))
+
         self.title_bar = CustomTitleBar(MainWindow)
         main_layout.addWidget(self.title_bar)
 
