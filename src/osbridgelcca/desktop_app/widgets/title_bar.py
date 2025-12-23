@@ -13,7 +13,7 @@ class CustomTitleBar(QWidget):
         super().__init__(parent)
         self.parent_window = parent
 
-        # ---- Resolve resources path SAFELY ----
+        # 🔒 Resolve paths RELATIVE TO THIS FILE
         BASE_DIR = Path(__file__).resolve().parent
         RESOURCES = BASE_DIR / "resources"
 
@@ -25,7 +25,7 @@ class CustomTitleBar(QWidget):
         self.setObjectName("custom_title_bar")
         self.setFixedHeight(30)
 
-        # ---- Styles (UNCHANGED) ----
+        # 🎨 STYLES (UNCHANGED)
         self.setStyleSheet("""
             #custom_title_bar {
                 background-color: #45913E;
@@ -52,7 +52,7 @@ class CustomTitleBar(QWidget):
             }
         """)
 
-        # ---- Layout ----
+        # 📐 Layout
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
@@ -94,11 +94,11 @@ class CustomTitleBar(QWidget):
         self.close_btn.clicked.connect(self.parent_window.close)
         layout.addWidget(self.close_btn)
 
-        # Drag variables
+        # Drag vars
         self.start_pos = None
         self.start_geometry = None
 
-    # ---- Icon switch (FIXED) ----
+    # 🔁 Icon switching (SAFE)
     def set_maximize_icon(self):
         self.max_btn.setIcon(QIcon(self.ICON_MAX))
 
@@ -113,7 +113,7 @@ class CustomTitleBar(QWidget):
             self.parent_window.showMaximized()
             self.set_restore_icon()
 
-    # ---- Dragging (UNCHANGED) ----
+    # 🖱️ Dragging
     def mousePressEvent(self, event: QMouseEvent):
         if event.button() == Qt.LeftButton and not self.parent_window.isMaximized():
             self.start_pos = event.globalPosition().toPoint()
