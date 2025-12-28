@@ -1,32 +1,44 @@
 import subprocess
 from pathlib import Path
 
+
 class FinancialReportGenerator:
     def __init__(self):
-        self.root = Path(__file__).resolve().parents[2]
-        self.template = self.root / "osbridgelcca" / "reports" / "templates" / "financial_report.tex"
-        self.output_dir = self.root / "osbridgelcca" / "reports" / "output"
+        # Root = src/osbridgelcca
+        self.root = Path(__file__).resolve().parents[1]
 
-        # Path of OSBridge logo for header
-        self.logo_path = str(self.root / "osbridgelcca" / "desktop_app" / "resources" / "osbridge_logo.png")
+        # Template inside osbridgelcca/reports/templates
+        self.template = (
+            self.root
+            / "reports"
+            / "templates"
+            / "financial_report.tex"
+        )
+
+        # Output inside osbridgelcca/reports/output
+        self.output_dir = (
+            self.root
+            / "reports"
+            / "output"
+        )
 
     def generate(self, data: dict, filename="financial_lcca_report"):
+        # Ensure output directory exists
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
         tex_file = self.output_dir / f"{filename}.tex"
 
-        content = self.template.read_text()
+        # Read LaTeX template safely
+        content = self.template.read_text(encoding="utf-8")
 
-        # Replace placeholders inside LaTeX template
+        # Replace placeholders like <<KEY>>
         for key, value in data.items():
             content = content.replace(f"<<{key}>>", str(value))
 
-        # Insert logo inside <<LOGO_PATH>>
-        content = content.replace("<<LOGO_PATH>>", self.logo_path.replace("\\", "/"))
-
+        # Write final .tex file
         tex_file.write_text(content, encoding="utf-8")
 
-        # Run LaTeX compiler
+        # Compile using TinyTeX (pdflatex)
         subprocess.run(
             ["pdflatex", "-interaction=nonstopmode", tex_file.name],
             cwd=self.output_dir,
