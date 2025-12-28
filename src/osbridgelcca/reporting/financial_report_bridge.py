@@ -13,4 +13,6 @@ def generate_financial_pdf(financial_data: dict):
         "ANALYSIS_PERIOD": financial_data["Analysis Period"],
     }
 
-    return generator.generate(mapped)
+    pdf_path = generator.generate(mapped, filename="financial_report")
+    print("PDF generated at:", pdf_path)
+    return pdf_path
