@@ -326,33 +326,46 @@ class FinancialData(QWidget):
     def close_widget(self):
         self.closed.emit()
         self.setParent(None)
+def collect_data(self):
+    from pprint import pprint
+    from pathlib import Path
+    from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
 
-    def collect_data(self):
-        from pprint import pprint
-        data = {
-            KEY_DISCOUNT_RATE_IA: 0.0 if not self.widgets[0].text() else float(self.widgets[0].text())/100,
-            KEY_INFLATION_RATE: 0.0 if not self.widgets[1].text() else float(self.widgets[1].text())/100,
-            KEY_INTEREST_RATE: 0.0 if not self.widgets[2].text() else float(self.widgets[2].text())/100,
-            KEY_INVESTMENT_RATIO: 0.0 if not self.widgets[3].text() else float(self.widgets[3].text()),
-            KEY_DESIGN_LIFE: 0 if not self.widgets[4].text() else int(self.widgets[4].text()),
-            KEY_CONSTR_TIME: 0.0 if not self.widgets[5].text() else float(self.widgets[5].text()),
-            KEY_ANALYSIS_PERIOD: 0 if not self.widgets[6].text() else int(self.widgets[6].text()),
-        }
+    data = {
+        KEY_DISCOUNT_RATE_IA: 0.0 if not self.widgets[0].text() else float(self.widgets[0].text())/100,
+        KEY_INFLATION_RATE: 0.0 if not self.widgets[1].text() else float(self.widgets[1].text())/100,
+        KEY_INTEREST_RATE: 0.0 if not self.widgets[2].text() else float(self.widgets[2].text())/100,
+        KEY_INVESTMENT_RATIO: 0.0 if not self.widgets[3].text() else float(self.widgets[3].text()),
+        KEY_DESIGN_LIFE: 0 if not self.widgets[4].text() else int(self.widgets[4].text()),
+        KEY_CONSTR_TIME: 0.0 if not self.widgets[5].text() else float(self.widgets[5].text()),
+        KEY_ANALYSIS_PERIOD: 0 if not self.widgets[6].text() else int(self.widgets[6].text()),
+    }
 
-        print("\nCollected Data from Financial UI:")
-        pprint(data)
+    print("\nCollected Data from Financial UI:")
+    pprint(data)
 
-        # Save UI Data to Backend
-        self.database_manager.financial_data = data
+    # Save UI Data to Backend
+    self.database_manager.financial_data = data
 
-        # calculate Time Cost
-        self.database_manager.calculate_time_cost()
-        # --- Generate Financial PDF Report ---
-        from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
+    # --- Calculate Time Cost ---
+    time_cost = self.database_manager.calculate_time_cost()
+    print("TIME COST =", time_cost)
 
-        generate_financial_pdf(
-            self.database_manager.financial_data
-)
+    # --- Resolve directories / logo path ---
+    root = Path(__file__).resolve().parents[2]
+    output_dir = root / "reports" / "output"
+    logo_path = root / "desktop_app" / "resources" / "osbridge_logo.png"
+
+    # --- Generate PDF ---
+    pdf_file = generate_financial_pdf(
+        data_dict=data,
+        output_dir=output_dir,
+        time_cost=time_cost,
+        logo_path=str(logo_path)
+    )
+
+    print("PDF Saved At:", pdf_file)
+
         
 
 
