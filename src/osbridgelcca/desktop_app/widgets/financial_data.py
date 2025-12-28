@@ -326,10 +326,9 @@ class FinancialData(QWidget):
     def close_widget(self):
         self.closed.emit()
         self.setParent(None)
-def collect_data(self):
-    from pprint import pprint
-    from pathlib import Path
-    from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
+
+    def collect_data(self):
+        from pprint import pprint
 
     data = {
         KEY_DISCOUNT_RATE_IA: 0.0 if not self.widgets[0].text() else float(self.widgets[0].text())/100,
@@ -344,27 +343,32 @@ def collect_data(self):
     print("\nCollected Data from Financial UI:")
     pprint(data)
 
-    # Save UI Data to Backend
+    # save UI → backend
     self.database_manager.financial_data = data
 
-    # --- Calculate Time Cost ---
+    # calculate time cost
     time_cost = self.database_manager.calculate_time_cost()
     print("TIME COST =", time_cost)
 
-    # --- Resolve directories / logo path ---
-    root = Path(__file__).resolve().parents[2]
-    output_dir = root / "reports" / "output"
-    logo_path = root / "desktop_app" / "resources" / "osbridge_logo.png"
+    # NEW → generate PDF
+    try:
+        from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
+        from pathlib import Path
 
-    # --- Generate PDF ---
-    pdf_file = generate_financial_pdf(
-        data_dict=data,
-        output_dir=output_dir,
-        time_cost=time_cost,
-        logo_path=str(logo_path)
-    )
+        root = Path(__file__).resolve().parents[2]
+        output_dir = root / "reports" / "output"
+        logo_path = root / "desktop_app" / "resources" / "osbridge_logo.png"
 
-    print("PDF Saved At:", pdf_file)
+        pdf_file = generate_financial_pdf(
+            data_dict=data,
+            output_dir=output_dir,
+            time_cost=time_cost,
+            logo_path=str(logo_path)
+        )
+        print("PDF saved at:", pdf_file)
+    except Exception as e:
+        print("PDF generation failed:", e)
+
 
         
 
