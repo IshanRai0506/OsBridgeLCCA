@@ -1,16 +1,30 @@
+from pathlib import Path
 from osbridgelcca.simple_report.financial_report_generator import FinancialReportGenerator
 
-def generate_financial_pdf(financial_data: dict):
-    generator = FinancialReportGenerator()
+def generate_financial_pdf(data_dict, time_cost, logo_path=None):
+    """
+    Generates financial PDF report using mapped UI data + time cost
+    """
+
+    root = Path(__file__).resolve().parents[2]
+    output_dir = root / "reports" / "output"
+    template_file = root / "reports" / "templates" / "financial_report.tex"
+
+    generator = FinancialReportGenerator(
+        template_path=template_file,
+        output_dir=output_dir,
+        logo_path=logo_path
+    )
 
     mapped = {
-        "DISCOUNT_RATE": financial_data["Discount Rate(Inflation Adjusted)"],
-        "INFLATION_RATE": financial_data["Inflation Rate"],
-        "INTEREST_RATE": financial_data["Interest Rate"],
-        "INVESTMENT_RATIO": financial_data["Investment Ratio"],
-        "DESIGN_LIFE": financial_data["Design Life"],
-        "CONSTR_TIME": financial_data["Time for Construction of Base Project"],
-        "ANALYSIS_PERIOD": financial_data["Analysis Period"],
+        "<<Analysis Period>>": data_dict.get("Analysis Period"),
+        "<<Design Life>>": data_dict.get("Design Life"),
+        "<<Discount Rate(Inflation Adjusted)>>": data_dict.get("Discount Rate(Inflation Adjusted)"),
+        "<<Inflation Rate>>": data_dict.get("Inflation Rate"),
+        "<<Interest Rate>>": data_dict.get("Interest Rate"),
+        "<<Investment Ratio>>": data_dict.get("Investment Ratio"),
+        "<<Time for Construction of Base Project>>": data_dict.get("Time for Construction of Base Project"),
+        "<<TIME_COST>>": time_cost
     }
 
     return generator.generate(mapped)
