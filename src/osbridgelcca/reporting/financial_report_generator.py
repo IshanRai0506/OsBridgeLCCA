@@ -1,30 +1,32 @@
 from pathlib import Path
 import subprocess
+import tempfile
 
 class FinancialReportGenerator:
-    def __init__(self):
-        root = Path(__file__).resolve().parents[1]
-        self.template = root / "templates" / "financial_report.tex"
+    def __init__(self, template_path: Path, output_dir: Path):
+        self.template = template_path
+        self.output_dir = output_dir
+        self.output_dir.mkdir(parents=True, exist_ok=True)
 
-    def generate(self, financial_data: dict, time_cost: float, logo_path: str, filename: str = "financial_lcca_report"):
-        template_text = self.template.read_text()
+    def generate(self, data: dict, time_cost: float, logo_path: str, filename: str):
+        tex = self.template.read_text()
 
         # Replace placeholders
-        for key, value in financial_data.items():
-            template_text = template_text.replace(f"<<{key}>>", str(value))
+        for key, value in data.items():
+            tex = tex.replace(f"<<{key}>>", str(value))
 
-        template_text = template_text.replace("<<TIME_COST>>", str(time_cost))
-        template_text = template_text.replace("<<LOGO_PATH>>", logo_path)
+        tex = tex.replace("<<TIME_COST>>", str(time_cost))
+        tex = tex.replace("<<LOGO_PATH>>", logo_path.replace("\\", "/"))
 
-        root = Path(__file__).resolve().parents[2]
-        output_dir = root / "reports" / "output"
-        output_dir.mkdir(parents=True, exist_ok=True)
+        # Write temp file
+        temp_tex = self.output_dir / f"{filename}.tex"
+        temp_tex.write_text(tex)
 
-        tex_file = output_dir / f"{filename}.tex"
-        pdf_file = output_dir / f"{filename}.pdf"
+        # Run pdflatex
+        subprocess.run(
+            ["pdflatex", "-interaction=nonstopmode", temp_tex.name],
+            cwd=self.output_dir,
+        )
 
-        tex_file.write_text(template_text)
-
-        subprocess.run(["pdflatex", "-interaction=nonstopmode", tex_file.name], cwd=output_dir)
-
-        return pdf_file
+        pdf_file = self.output_dir / f"{filename}.pdf"
+        return str(pdf_file)
