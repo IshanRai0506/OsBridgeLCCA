@@ -166,7 +166,7 @@ class FinancialData(QWidget):
         logo_path = root / "desktop_app" / "resources" / "osbridge_logo.png"
 
         pdf_file = generate_financial_pdf(
-            data=data,
+            data=financial_data,
             time_cost=time_cost,
             logo_path=str(logo_path)
         )
