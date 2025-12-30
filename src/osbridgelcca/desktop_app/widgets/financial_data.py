@@ -85,27 +85,28 @@ class FinancialData(QWidget):
 
     # ---------- Collect + Generate PDF ----------
     def collect_data(self):
-        data = {
-            KEY_DISCOUNT_RATE_IA: 0.0 if not self.widgets[0].text() else float(self.widgets[0].text()) / 100,
-            KEY_INFLATION_RATE: 0.0 if not self.widgets[1].text() else float(self.widgets[1].text()) / 100,
-            KEY_INTEREST_RATE: 0.0 if not self.widgets[2].text() else float(self.widgets[2].text()) / 100,
-            KEY_INVESTMENT_RATIO: 0.0 if not self.widgets[3].text() else float(self.widgets[3].text()),
-            KEY_DESIGN_LIFE: 0 if not self.widgets[4].text() else int(self.widgets[4].text()),
-            KEY_CONSTR_TIME: 0.0 if not self.widgets[5].text() else float(self.widgets[5].text()),
-            KEY_ANALYSIS_PERIOD: 0 if not self.widgets[6].text() else int(self.widgets[6].text()),
-        }
-
+        from pprint import pprint
         print("\nCollected Data:")
-        print(data)
+        pprint(self.database_manager.financial_data)
 
+        # Save UI Data to backend
+        data = {
+            KEY_DISCOUNT_RATE_IA: float(self.widgets[0].text())/100 if self.widgets[0].text() else 0.0,
+            KEY_INFLATION_RATE: float(self.widgets[1].text())/100 if self.widgets[1].text() else 0.0,
+            KEY_INTEREST_RATE: float(self.widgets[2].text())/100 if self.widgets[2].text() else 0.0,
+            KEY_INVESTMENT_RATIO: float(self.widgets[3].text()) if self.widgets[3].text() else 0.0,
+            KEY_DESIGN_LIFE: int(self.widgets[4].text()) if self.widgets[4].text() else 0,
+            KEY_CONSTR_TIME: float(self.widgets[5].text()) if self.widgets[5].text() else 0.0,
+            KEY_ANALYSIS_PERIOD: int(self.widgets[6].text()) if self.widgets[6].text() else 0,
+        }
         self.database_manager.financial_data = data
+
+        # compute time-cost
         time_cost = self.database_manager.calculate_time_cost()
         print("TIME COST =", time_cost)
 
-        # --- CALL YOUR NEW OS-STYLE PDF ---
-        try:
-            from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
-            pdf_path = generate_financial_pdf(data, time_cost)
-            print("PDF Generated:", pdf_path)
-        except Exception as e:
-            print("⚠ PDF Generation ERROR:", e)
+        # generate PDF using new bridge
+        from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
+        pdf_file = generate_financial_pdf(data, time_cost)
+        print("📌 Financial PDF Saved At:", pdf_file)
+
