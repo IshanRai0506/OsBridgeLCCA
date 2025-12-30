@@ -1,16 +1,15 @@
-from osbridgelcca.simple_report.financial_report_generator import FinancialReportGenerator
+from pathlib import Path
+from .financial_report_generator import FinancialReportGenerator
 
-def generate_financial_pdf(financial_data: dict):
-    generator = FinancialReportGenerator()
+def generate_financial_pdf(data_dict, time_cost):
+    gen = FinancialReportGenerator()
 
-    mapped = {
-        "DISCOUNT_RATE": financial_data["Discount Rate(Inflation Adjusted)"],
-        "INFLATION_RATE": financial_data["Inflation Rate"],
-        "INTEREST_RATE": financial_data["Interest Rate"],
-        "INVESTMENT_RATIO": financial_data["Investment Ratio"],
-        "DESIGN_LIFE": financial_data["Design Life"],
-        "CONSTR_TIME": financial_data["Time for Construction of Base Project"],
-        "ANALYSIS_PERIOD": financial_data["Analysis Period"],
-    }
+    mapped = {k: v for k, v in data_dict.items()}
+    root = Path(__file__).resolve().parents[2]
+    logo_path = str(root / "desktop_app" / "resources" / "osbridge_logo.png")
 
-    return generator.generate(mapped)
+    return gen.generate(
+        mapped=mapped,
+        time_cost=time_cost,
+        logo_path=logo_path
+    )
