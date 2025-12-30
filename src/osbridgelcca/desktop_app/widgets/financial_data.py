@@ -106,6 +106,7 @@ class FinancialData(QWidget):
         print("TIME COST =", time_cost)
 
         try:
-            generate_financial_pdf(data, time_cost)
+            pdf_file = generate_financial_pdf(data, time_cost)
+            print("📁 PDF Saved At:", pdf_file)
         except Exception as e:
             print("⚠ PDF ERROR:", e)
