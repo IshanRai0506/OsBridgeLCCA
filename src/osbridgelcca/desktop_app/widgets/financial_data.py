@@ -134,9 +134,9 @@ class FinancialData(QWidget):
 
         # ------- CALL REPORT -------
         from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
-        generate_financial_pdf(data, time_cost)
+        pdf_path = generate_financial_pdf(data, time_cost)
+        print("PDF Saved:", pdf_path)
 
-        print("PDF Generated Successfully.")
 
     def close_widget(self):
         self.closed.emit()
