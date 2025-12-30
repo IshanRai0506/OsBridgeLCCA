@@ -4,26 +4,24 @@
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \usepackage{tabularx}
+\usepackage{setspace}
 
 % --- Colors ---
 \definecolor{osgreen}{HTML}{285A23}
 
-% --- Header Style ---
+% --- Header ---
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 
-% Logo + Title
-\fancyhead[L]{\vspace{0.3cm}\includegraphics[width=2.5cm]{<<LOGO_PATH>>}}
-\fancyhead[C]{\vspace{0.8cm}\textbf{\fontsize{17pt}{20pt}\selectfont LIFE CYCLE COST ANALYSIS REPORT}}
+\fancyhead[L]{\includegraphics[height=1.2cm]{<<LOGO_PATH>>}}
+\fancyhead[C]{\vspace{0.3cm}\textbf{\fontsize{16pt}{18pt}\selectfont LIFE CYCLE COST ANALYSIS REPORT}}
 
 % Footer
-\fancyfoot[C]{\textcolor{gray}{\small © OSBridge-LCCA – Page \thepage}}
+\fancyfoot[C]{\textcolor{gray}{© OSBridge-LCCA – Page \thepage}}
 
 \begin{document}
-
-% --- Add Space below header ---
-\vspace*{2.8cm}
+\vspace*{1.5cm}
 
 % --- Banner ---
 \noindent
@@ -35,7 +33,8 @@
 \vspace{1.2cm}
 
 % --- DETAILS TABLE ---
-\begin{tabularx}{\linewidth}{|l|X|}
+\begin{center}
+\begin{tabularx}{0.85\linewidth}{|l|X|}
 \hline
 \textbf{Analysis Period} & <<Analysis Period>> years \\ \hline
 \textbf{Design Life} & <<Design Life>> years \\ \hline
@@ -45,14 +44,17 @@
 \textbf{Investment Ratio} & <<Investment Ratio>> \\ \hline
 \textbf{Construction Duration} & <<Time for Construction of Base Project>> days \\ \hline
 \end{tabularx}
+\end{center}
 
 \vspace{1.6cm}
 
-% --- Results ---
-\section*{Calculated Values}
-\textbf{Time-Cost:} <<TIME_COST>>
+% --- Calc Values ---
+{\setstretch{1.3}
+\noindent\textbf{\Large Calculated Values} \\[0.4cm]
+\textbf{Time-Cost:} \ \ <<TIME_COST>>
+}
 
-\vspace{2.5cm}
+\vfill
 
 \begin{center}
 {\small Generated automatically by OSBridge-LCCA}
