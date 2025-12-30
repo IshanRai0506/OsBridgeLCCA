@@ -349,10 +349,27 @@ class FinancialData(QWidget):
         self.database_manager.calculate_time_cost()
         # --- Generate Financial PDF Report ---
         from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
+        from pathlib import Path
 
-        generate_financial_pdf(
-            self.database_manager.financial_data
+        # 🧮 Calculate time cost
+        time_cost = self.database_manager.calculate_time_cost()
+        print("TIME COST =", time_cost)
+
+        # 🧾 Prepare paths
+        root = Path(__file__).resolve().parents[2]
+        output_dir = root / "reports" / "output"
+        logo_path = root / "desktop_app" / "resources" / "osbridge_logo.png"
+
+        # 📌 Generate PDF
+        pdf_path = generate_financial_pdf(
+            data=self.database_manager.financial_data,
+            time_cost=time_cost,
+            logo_path=str(logo_path),
+            output_dir=output_dir
 )
+
+print("PDF Saved At:", pdf_path)
+
         
 
 
