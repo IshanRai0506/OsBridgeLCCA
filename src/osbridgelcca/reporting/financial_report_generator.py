@@ -4,29 +4,27 @@ import subprocess
 class FinancialReportGenerator:
     def __init__(self):
         root = Path(__file__).resolve().parents[1]
-        self.template = root / "reporting" / "templates" / "financial_report.tex"
-        self.output_dir = root / "reporting" / "output"
-        self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.template = root / "templates" / "financial_report.tex"
 
-    def generate(self, data: dict, time_cost: float, logo_path: str, filename: str = "financial_lcca_report"):
-        tex_path = self.output_dir / f"{filename}.tex"
-        pdf_path = self.output_dir / f"{filename}.pdf"
-
-        # Read template
+    def generate(self, financial_data: dict, time_cost: float, logo_path: str, filename: str = "financial_lcca_report"):
         template_text = self.template.read_text()
 
-        # Fill placeholders in LaTeX
-        for key, value in data.items():
+        # Replace placeholders
+        for key, value in financial_data.items():
             template_text = template_text.replace(f"<<{key}>>", str(value))
+
         template_text = template_text.replace("<<TIME_COST>>", str(time_cost))
-        template_text = template_text.replace("<<LOGO_PATH>>", logo_path.replace("\\", "/"))
+        template_text = template_text.replace("<<LOGO_PATH>>", logo_path)
 
-        tex_path.write_text(template_text)
+        root = Path(__file__).resolve().parents[2]
+        output_dir = root / "reports" / "output"
+        output_dir.mkdir(parents=True, exist_ok=True)
 
-        # Compile latex
-        subprocess.run(
-            ["pdflatex", "-interaction=nonstopmode", tex_path.name],
-            cwd=self.output_dir
-        )
+        tex_file = output_dir / f"{filename}.tex"
+        pdf_file = output_dir / f"{filename}.pdf"
 
-        return pdf_path
+        tex_file.write_text(template_text)
+
+        subprocess.run(["pdflatex", "-interaction=nonstopmode", tex_file.name], cwd=output_dir)
+
+        return pdf_file
