@@ -1,32 +1,14 @@
 from pathlib import Path
-import subprocess
+from .financial_report_generator import FinancialReportGenerator
 
-class FinancialReportGenerator:
-    def __init__(self):
-        root = Path(__file__).resolve().parents[1]
-        self.template = root / "reporting" / "templates" / "financial_report.tex"
-        self.output_dir = root / "reporting" / "output"
-        self.output_dir.mkdir(parents=True, exist_ok=True)
+def generate_financial_pdf(financial_data: dict, time_cost: float):
+    root = Path(__file__).resolve().parents[2]
+    logo_path = root / "desktop_app" / "resources" / "osbridge_logo.png"
 
-    def generate(self, data: dict, time_cost: float, logo_path: str, filename: str = "financial_lcca_report"):
-        tex_path = self.output_dir / f"{filename}.tex"
-        pdf_path = self.output_dir / f"{filename}.pdf"
-
-        # Read template
-        template_text = self.template.read_text()
-
-        # Fill placeholders in LaTeX
-        for key, value in data.items():
-            template_text = template_text.replace(f"<<{key}>>", str(value))
-        template_text = template_text.replace("<<TIME_COST>>", str(time_cost))
-        template_text = template_text.replace("<<LOGO_PATH>>", logo_path.replace("\\", "/"))
-
-        tex_path.write_text(template_text)
-
-        # Compile latex
-        subprocess.run(
-            ["pdflatex", "-interaction=nonstopmode", tex_path.name],
-            cwd=self.output_dir
-        )
-
-        return pdf_path
+    generator = FinancialReportGenerator()
+    return generator.generate(
+        financial_data=financial_data,
+        time_cost=time_cost,
+        logo_path=str(logo_path),
+        filename="financial_lcca_report"
+    )
