@@ -1,24 +1,22 @@
 from pathlib import Path
 from .financial_report_generator import FinancialReportGenerator
 
-def generate_financial_pdf(financial_data: dict, time_cost: float):
-    """
-    Bridge API called from UI FinancialData -> generates PDF using template and generator.
-    """
+def generate_financial_pdf(data: dict, time_cost: float):
+    """Generate OSBridge–LCCA PDF using LaTeX template"""
 
-    root = Path(__file__).resolve().parents[1]   # /osbridgelcca
+    root = Path(__file__).resolve().parents[1]
     output_dir = root / "reports" / "output"
-    templates_dir = root / "reporting" / "templates"
-    logo_path = root / "desktop_app" / "resources" / "osbridge_logo.png"
+    template = root / "reports" / "templates" / "financial_report.tex"
+    logo_path = root.parent / "desktop_app" / "resources" / "osbridge_logo.png"
 
-    generator = FinancialReportGenerator(
-        template_path=templates_dir / "financial_report.tex",
-        output_dir=output_dir
-    )
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    generator = FinancialReportGenerator(template)
 
     return generator.generate(
-        data=financial_data,
+        data=data,
         time_cost=time_cost,
+        output_dir=str(output_dir),
         logo_path=str(logo_path),
         filename="financial_lcca_report"
     )
