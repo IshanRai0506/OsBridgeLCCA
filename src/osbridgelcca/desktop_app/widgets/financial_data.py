@@ -107,8 +107,5 @@ class FinancialData(QWidget):
 
         # generate PDF using new bridge
         from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
-
-        print("TIME COST =", time_cost)
-
         pdf_file = generate_financial_pdf(data, time_cost)
         print("PDF Saved:", pdf_file)
