@@ -165,10 +165,10 @@ class FinancialData(QWidget):
         time_cost = self.database_manager.calculate_time_cost()
         print("3.Time Cost: ", time_cost)
 
-        # ---- Call PDF ----
-        try:
-            from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
-            pdf_path = generate_financial_pdf(data, time_cost)
-            print("PDF Generated:", pdf_path)
-        except Exception as e:
-            print("⚠ PDF Generation FAILED:", e)
+        # ---- PDF GENERATION ----
+        from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
+
+        pdf_file = generate_financial_pdf(data, time_cost)
+        print("PDF Saved At:", pdf_file)
+
+        
