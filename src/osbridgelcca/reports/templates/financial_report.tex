@@ -8,38 +8,39 @@
 % --- Colors ---
 \definecolor{osgreen}{HTML}{285A23}
 
-% --- Header Style ---
+% --- Page Style ---
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 
-% Left logo + Center title
-\fancyhead[L]{\includegraphics[height=1.4cm]{<<LOGO_PATH>>}}
-\fancyhead[C]{\textbf{\fontsize{16pt}{18pt}\selectfont LIFE CYCLE COST ANALYSIS REPORT}}
-
-% Footer
+% Place ONLY logo in header (small)
+\fancyhead[L]{\includegraphics[height=1.2cm]{<<LOGO_PATH>>}}
 \fancyfoot[C]{\textcolor{gray}{© OSBridge-LCCA – Page \thepage}}
 
 \begin{document}
 
-\vspace*{2.2cm}
+% Top spacing so title doesn't touch logo
+\vspace*{1.8cm}
 
-% --- Banner ---
-\noindent
+% --- Title ---
 \begin{center}
-\colorbox{osgreen}{%
-    \parbox{0.8\linewidth}{%
-        \centering
-        \textcolor{white}{\textbf{FINANCIAL REPORT}}
-    }
-}
+{\Large \textbf{LIFE CYCLE COST ANALYSIS REPORT}}
 \end{center}
 
 \vspace{1.2cm}
 
-% ---- DATA TABLE CENTERED ----
-\begin{center}
-\begin{tabular}{|p{7cm}|p{5cm}|}
+% --- Green banner ---
+\noindent
+\colorbox{osgreen}{\parbox{\linewidth}{
+    \centering
+    \textcolor{white}{\textbf{FINANCIAL REPORT}}
+}}
+
+\vspace{1cm}
+
+% --- TABLE DESIGN ---
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{0.85\linewidth}{|l|X|}
 \hline
 \textbf{Analysis Period} & <<Analysis Period>> years \\ \hline
 \textbf{Design Life} & <<Design Life>> years \\ \hline
@@ -48,19 +49,18 @@
 \textbf{Interest Rate} & <<Interest Rate>> \\ \hline
 \textbf{Investment Ratio} & <<Investment Ratio>> \\ \hline
 \textbf{Construction Duration} & <<Time for Construction of Base Project>> days \\ \hline
-\end{tabular}
-\end{center}
+\end{tabularx}
 
-\vspace{1.6cm}
+\vspace{1.5cm}
 
-% --- Calculated Section ---
-\section*{Calculated Values}
+% --- Calculated Values ---
+{\large \textbf{Calculated Values}}\\[6pt]
 \textbf{Time-Cost:} <<TIME_COST>>
 
 \vfill
 
-{\centering
-\textit{Generated automatically by OSBridge-LCCA} \par
-}
+\begin{center}
+\small Generated automatically by OSBridge-LCCA
+\end{center}
 
 \end{document}
