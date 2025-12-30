@@ -145,30 +145,28 @@ class FinancialData(QWidget):
         self.setParent(None)
 
     def collect_data(self):
-        from pprint import pprint
-        data = {
-            KEY_DISCOUNT_RATE_IA: float(self.widgets[0].text()) / 100 if self.widgets[0].text() else 0.0,
-            KEY_INFLATION_RATE: float(self.widgets[1].text()) / 100 if self.widgets[1].text() else 0.0,
-            KEY_INTEREST_RATE: float(self.widgets[2].text()) / 100 if self.widgets[2].text() else 0.0,
-            KEY_INVESTMENT_RATIO: float(self.widgets[3].text()) if self.widgets[3].text() else 0.0,
-            KEY_DESIGN_LIFE: int(self.widgets[4].text()) if self.widgets[4].text() else 0,
-            KEY_CONSTR_TIME: float(self.widgets[5].text()) if self.widgets[5].text() else 0.0,
-            KEY_ANALYSIS_PERIOD: int(self.widgets[6].text()) if self.widgets[6].text() else 0,
-        }
+    from pprint import pprint
+    data = {
+        "Discount Rate(Inflation Adjusted)": float(self.widgets[0].text())/100 if self.widgets[0].text() else 0.0,
+        "Inflation Rate": float(self.widgets[1].text())/100 if self.widgets[1].text() else 0.0,
+        "Interest Rate": float(self.widgets[2].text())/100 if self.widgets[2].text() else 0.0,
+        "Investment Ratio": float(self.widgets[3].text()) if self.widgets[3].text() else 0.0,
+        "Design Life": int(self.widgets[4].text()) if self.widgets[4].text() else 0,
+        "Time for Construction of Base Project": float(self.widgets[5].text()) if self.widgets[5].text() else 0.0,
+        "Analysis Period": int(self.widgets[6].text()) if self.widgets[6].text() else 0,
+    }
 
-        print("\nCollected Data:")
-        pprint(data)
-        print()
+    print("\nCollected Data:")
+    pprint(data)
 
-        # Save
-        self.database_manager.financial_data = data
-        time_cost = self.database_manager.calculate_time_cost()
-        print("3.Time Cost: ", time_cost)
+    self.database_manager.financial_data = data
+    time_cost = self.database_manager.calculate_time_cost()
+    print("3.Time Cost: ", time_cost)
 
-        # ---- PDF GENERATION ----
-        from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
+    from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
 
-        pdf_file = generate_financial_pdf(data, time_cost)
-        print("PDF Saved At:", pdf_file)
+    pdf_file = generate_financial_pdf(data, time_cost)
+    print("PDF saved:", pdf_file)
+
 
         
