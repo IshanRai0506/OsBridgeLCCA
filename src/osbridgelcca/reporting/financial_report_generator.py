@@ -12,7 +12,9 @@ class FinancialReportGenerator:
         tex_text = self.template.read_text()
 
         # Replace placeholders
-        tex_text = tex_text.replace("<<LOGO_PATH>>", logo_path)
+        safe_logo_path = logo_path.replace("\\", "/")
+        tex_text = tex_text.replace("<<LOGO_PATH>>", safe_logo_path)
+
         for key in data:
             tex_text = tex_text.replace(f"<<{key}>>", str(data[key]))
         tex_text = tex_text.replace("<<TIME_COST>>", str(time_cost))
