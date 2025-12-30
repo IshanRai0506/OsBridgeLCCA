@@ -1,24 +1,14 @@
 from pathlib import Path
 from .financial_report_generator import FinancialReportGenerator
 
-
-def generate_financial_pdf(data, time_cost):
+def generate_financial_pdf(data: dict, time_cost: float):
     root = Path(__file__).resolve().parents[2]
 
-    # Output folder
-    output_dir = root / "reports" / "output"
-    output_dir.mkdir(parents=True, exist_ok=True)
+    template = root / "osbridgelcca" / "reports" / "templates" / "financial_report.tex"
+    output_dir = root / "osbridgelcca" / "reports" / "output"
+    logo_path = root / "osbridgelcca" / "reports" / "templates" / "osbridge_logo.png"
 
-    # Template location
-    template = root / "reports" / "templates" / "financial_report.tex"
-
-    # Logo path
-    logo_path = root / "osbridgelcca" / "desktop_app" / "resources" / "osbridge_logo.png"
-
-    # Create report generator
-    generator = FinancialReportGenerator(template, output_dir)
-
-    # Generate PDF
+    generator = FinancialReportGenerator(template=template, output_dir=output_dir)
     pdf_path = generator.generate(
         data=data,
         time_cost=time_cost,
@@ -26,5 +16,5 @@ def generate_financial_pdf(data, time_cost):
         filename="financial_lcca_report"
     )
 
-    print("PDF SAVED AT:", pdf_path)
+    print("📎 PDF Saved At:", pdf_path)
     return pdf_path
