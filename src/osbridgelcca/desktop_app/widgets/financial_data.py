@@ -92,7 +92,44 @@ class FinancialData(QWidget):
         i7 = make_input("50")
         i7.setValidator(QIntValidator(i7))
         form.addWidget(i7, 6, 1); form.addWidget(QLabel("(years)"), 6, 2)
+        def collect_data(self):
 
+            data = {
+                KEY_DISCOUNT_RATE_IA: 0.0 if not self.widgets[0].text() else float(self.widgets[0].text())/100,
+                KEY_INFLATION_RATE: 0.0 if not self.widgets[1].text() else float(self.widgets[1].text())/100,
+                KEY_INTEREST_RATE: 0.0 if not self.widgets[2].text() else float(self.widgets[2].text())/100,
+                KEY_INVESTMENT_RATIO: 0.0 if not self.widgets[3].text() else float(self.widgets[3].text()),
+                KEY_DESIGN_LIFE: 0 if not self.widgets[4].text() else int(self.widgets[4].text()),
+                KEY_CONSTR_TIME: 0.0 if not self.widgets[5].text() else float(self.widgets[5].text()),
+                KEY_ANALYSIS_PERIOD: 0 if not self.widgets[6].text() else int(self.widgets[6].text()),
+            }
+
+            print("\nCollected Data:")
+            pprint(data)
+
+            # SAVE DATA TO DB
+            self.database_manager.financial_data = data
+
+            # CALCULATE TIME COST
+            time_cost = self.database_manager.calculate_time_cost()
+            print("TIME COST =", time_cost)
+
+            # ---- RUN REPORT ----
+            try:
+
+                # build logo absolute path
+                root = Path(__file__).resolve().parents[2]
+                logo_path = root / "desktop_app" / "resources" / "osbridge_logo.png"
+
+                pdf_file = generate(
+                    data=data,
+                    time_cost=time_cost,
+                    logo_path=str(logo_path),
+                    filename="financial_lcca_report"
+                )
+                print("PDF saved at:", pdf_file)
+            except Exception as e:
+                print("❌ PDF FAILED:", e)
         self.scroll_layout.addWidget(self.form_widget)
 
         # ---------- NAV BUTTONS ----------
@@ -111,7 +148,7 @@ class FinancialData(QWidget):
         btn_layout.addWidget(next_btn)
 
         self.scroll_layout.addLayout(btn_layout)
-        self.scroll_layout.addSpacerItem(QSpacerItem(0, 20))
+        self.scroll_layout.addItem(QSpacerItem(0, 20))
 
     def collect_data(self):
         """ Read UI values + save + trigger PDF """
@@ -134,6 +171,9 @@ class FinancialData(QWidget):
 
         # ------- CALL REPORT -------
         from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
+from pprint import pprint
+from pathlib import Path
+from osbridgelcca.reporting.financial_report_bridge import generate
         pdf_path = generate_financial_pdf(data, time_cost)
         print("PDF Saved:", pdf_path)
 
