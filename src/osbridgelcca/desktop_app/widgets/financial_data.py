@@ -329,9 +329,6 @@ class FinancialData(QWidget):
 
     def collect_data(self):
         from pprint import pprint
-        from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
-        from pathlib import Path
-
         data = {
             KEY_DISCOUNT_RATE_IA: 0.0 if not self.widgets[0].text() else float(self.widgets[0].text())/100,
             KEY_INFLATION_RATE: 0.0 if not self.widgets[1].text() else float(self.widgets[1].text())/100,
@@ -345,29 +342,17 @@ class FinancialData(QWidget):
         print("\nCollected Data from Financial UI:")
         pprint(data)
 
-        # Save UI Data
+        # Save UI Data to Backend
         self.database_manager.financial_data = data
 
-        # Compute time cost
-        time_cost = self.database_manager.calculate_time_cost()
-        print("TIME COST =", time_cost)
+        # calculate Time Cost
+        self.database_manager.calculate_time_cost()
+        # --- Generate Financial PDF Report ---
+        from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
 
-        # ---- PDF Generation ----
-        root = Path(__file__).resolve().parents[2]
-        output_dir = root / "reports" / "output"
-        logo_path = root / "desktop_app" / "resources" / "osbridge_logo.png"
-
-        pdf_path = generate_financial_pdf(
-           financial_data = data,
-          output_dir = output_dir,
-         time_cost = time_cost,
-         logo_path = str(logo_path)
-         )
-
-
-        print("PDF Saved at:", pdf_path)
-
-
+        generate_financial_pdf(
+            self.database_manager.financial_data
+)
         
 
 
