@@ -8,25 +8,26 @@ class FinancialReportGenerator:
         self.output_dir = output_dir
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-    def generate(self, data: dict, time_cost: float, logo_path: str, filename: str):
-        tex = self.template.read_text()
+    def generate(self, data, time_cost, logo_path, filename, output_dir, template_file):
+        tex_text = Path(template_file).read_text()
 
-        # Replace placeholders
-        for key, value in data.items():
-            tex = tex.replace(f"<<{key}>>", str(value))
+        tex_text = tex_text.replace("<<LOGO_PATH>>", logo_path)
+        tex_text = tex_text.replace("<<Discount Rate(Inflation Adjusted)>>", str(data["Discount Rate(Inflation Adjusted)"]))
+        tex_text = tex_text.replace("<<Inflation Rate>>", str(data["Inflation Rate"]))
+        tex_text = tex_text.replace("<<Interest Rate>>", str(data["Interest Rate"]))
+        tex_text = tex_text.replace("<<Investment Ratio>>", str(data["Investment Ratio"]))
+        tex_text = tex_text.replace("<<Design Life>>", str(data["Design Life"]))
+        tex_text = tex_text.replace("<<Time for Construction of Base Project>>", str(data["Time for Construction of Base Project"]))
+        tex_text = tex_text.replace("<<Analysis Period>>", str(data["Analysis Period"]))
+        tex_text = tex_text.replace("<<TIME_COST>>", str(time_cost))
 
-        tex = tex.replace("<<TIME_COST>>", str(time_cost))
-        tex = tex.replace("<<LOGO_PATH>>", logo_path.replace("\\", "/"))
+        output_dir.mkdir(parents=True, exist_ok=True)
+        tex_path = output_dir / f"{filename}.tex"
+        pdf_path = output_dir / f"{filename}.pdf"
 
-        # Write temp file
-        temp_tex = self.output_dir / f"{filename}.tex"
-        temp_tex.write_text(tex)
+        tex_path.write_text(tex_text)
 
-        # Run pdflatex
-        subprocess.run(
-            ["pdflatex", "-interaction=nonstopmode", temp_tex.name],
-            cwd=self.output_dir,
-        )
+        import subprocess
+        subprocess.run(["pdflatex", "-interaction=nonstopmode", tex_path.name], cwd=output_dir)
 
-        pdf_file = self.output_dir / f"{filename}.pdf"
-        return str(pdf_file)
+        return pdf_path
