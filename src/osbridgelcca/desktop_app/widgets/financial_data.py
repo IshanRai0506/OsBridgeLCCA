@@ -1,11 +1,12 @@
+from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtCore import QCoreApplication, Qt, QSize, Signal
 from PySide6.QtWidgets import (
-    QApplication, QWidget, QVBoxLayout, QScrollArea, QSizePolicy,
-    QLabel, QLineEdit, QPushButton, QHBoxLayout, QGridLayout, QSpacerItem
+    QHBoxLayout, QPushButton, QLineEdit, QComboBox, QGridLayout,
+    QWidget, QLabel, QVBoxLayout, QScrollArea, QSpacerItem, QSizePolicy
 )
-from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QIcon, QIntValidator
 from .utils.data import *
-from pathlib import Path
+import sys
 
 
 class FinancialData(QWidget):
@@ -20,164 +21,154 @@ class FinancialData(QWidget):
         self.widgets = []
 
         self.setObjectName("central_panel_widget")
-        self.setStyleSheet("""
-            #central_panel_widget { background-color: #F8F8F8; border-radius: 8px; }
-            #central_panel_widget QLabel { color: #333; font-size: 12px; }
-            QScrollArea { background-color: transparent; }
-            #scroll_content_widget { background-color: #FFF9F9; border: 1px solid #000; }
-            QPushButton#nav_button {
-                background:#FFF;border:1px solid #ccc;color:#3F3E5E;
-                border-radius:8px;padding:6px 15px;min-width:80px;
-            }
-        """)
+        left_panel_vlayout = QVBoxLayout(self)
+        left_panel_vlayout.setContentsMargins(0, 0, 0, 0)
+        left_panel_vlayout.setSpacing(0)
 
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(0, 0, 0, 0)
-
+        # Scroll
         self.scroll_area = QScrollArea()
         self.scroll_area.setWidgetResizable(True)
-        layout.addWidget(self.scroll_area)
+        scroll_content_widget = QWidget()
+        scroll_content_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        scroll_content_widget.setObjectName("scroll_content_widget")
+        self.scroll_area.setWidget(scroll_content_widget)
+        self.scroll_content_layout = QVBoxLayout(scroll_content_widget)
+        self.scroll_content_layout.setContentsMargins(0, 0, 0, 0)
+        self.scroll_content_layout.setSpacing(0)
 
-        scroll_content = QWidget()
-        scroll_content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        scroll_content.setObjectName("scroll_content_widget")
-        self.scroll_area.setWidget(scroll_content)
+        # Form container
+        self.general_widget = QWidget()
+        self.general_layout = QVBoxLayout(self.general_widget)
+        self.general_layout.setContentsMargins(10, 20, 10, 10)
+        self.general_layout.setSpacing(10)
 
-        self.scroll_layout = QVBoxLayout(scroll_content)
-        self.scroll_layout.setContentsMargins(0, 0, 0, 0)
+        grid = QGridLayout()
+        grid.setHorizontalSpacing(10)
+        grid.setVerticalSpacing(20)
 
-        # ---------- FORM ----------
-        self.form_widget = QWidget()
-        form = QGridLayout(self.form_widget)
-        form.setHorizontalSpacing(10)
-        form.setVerticalSpacing(15)
         field_width = 200
 
-        def make_input(default=""):
-            w = QLineEdit()
-            w.setFixedWidth(field_width)
-            w.setAlignment(Qt.AlignLeft)
-            w.setStyleSheet("QLineEdit{border:1px solid #DDD; border-radius:8px; padding:3px 10px;}")
-            w.setText(default)
-            self.widgets.append(w)
-            return w
+        # 1 — Discount Rate
+        label = QLabel("Discount Rate (Inflation Adjusted)")
+        input1 = QLineEdit()
+        self.widgets.append(input1)
+        input1.setFixedWidth(field_width)
+        input1.setText("6.70")
+        grid.addWidget(label, 0, 0)
+        grid.addWidget(input1, 0, 1)
+        grid.addWidget(QLabel("(%)"), 0, 2)
 
-        # Fields
-        form.addWidget(QLabel("Discount Rate (Inflation Adjusted)"), 0, 0)
-        i1 = make_input("6.70")
-        form.addWidget(i1, 0, 1); form.addWidget(QLabel("(%)"), 0, 2)
+        # 2 — Inflation
+        label = QLabel("Inflation Rate")
+        input2 = QLineEdit()
+        self.widgets.append(input2)
+        input2.setFixedWidth(field_width)
+        input2.setText("5.15")
+        grid.addWidget(label, 1, 0)
+        grid.addWidget(input2, 1, 1)
+        grid.addWidget(QLabel("(%)"), 1, 2)
 
-        form.addWidget(QLabel("Inflation Rate"), 1, 0)
-        i2 = make_input("5.15")
-        form.addWidget(i2, 1, 1); form.addWidget(QLabel("(%)"), 1, 2)
+        # 3 — Interest Rate
+        label = QLabel("Interest Rate")
+        input3 = QLineEdit()
+        self.widgets.append(input3)
+        input3.setFixedWidth(field_width)
+        input3.setText("7.75")
+        grid.addWidget(label, 2, 0)
+        grid.addWidget(input3, 2, 1)
+        grid.addWidget(QLabel("(%)"), 2, 2)
 
-        form.addWidget(QLabel("Interest Rate"), 2, 0)
-        i3 = make_input("7.75")
-        form.addWidget(i3, 2, 1); form.addWidget(QLabel("(%)"), 2, 2)
+        # 4 — Investment Ratio
+        label = QLabel("Investment Ratio")
+        input4 = QLineEdit()
+        self.widgets.append(input4)
+        input4.setFixedWidth(field_width)
+        input4.setText("0.5000")
+        grid.addWidget(label, 3, 0)
+        grid.addWidget(input4, 3, 1)
 
-        form.addWidget(QLabel("Investment Ratio"), 3, 0)
-        i4 = make_input("0.5000")
-        form.addWidget(i4, 3, 1)
+        # 5 — Design Life
+        label = QLabel("Design Life")
+        input5 = QLineEdit()
+        input5.setValidator(QIntValidator(input5))
+        self.widgets.append(input5)
+        input5.setFixedWidth(field_width)
+        input5.setText("50")
+        grid.addWidget(label, 4, 0)
+        grid.addWidget(input5, 4, 1)
+        grid.addWidget(QLabel("(years)"), 4, 2)
 
-        form.addWidget(QLabel("Design Life"), 4, 0)
-        i5 = make_input("50")
-        i5.setValidator(QIntValidator(i5))
-        form.addWidget(i5, 4, 1); form.addWidget(QLabel("(years)"), 4, 2)
+        # 6 — Construction Duration
+        label = QLabel("Time for Construction of Base Project")
+        input6 = QLineEdit()
+        self.widgets.append(input6)
+        input6.setFixedWidth(field_width)
+        grid.addWidget(label, 5, 0)
+        grid.addWidget(input6, 5, 1)
+        grid.addWidget(QLabel("(years)"), 5, 2)
 
-        form.addWidget(QLabel("Time for Construction (Base Project)"), 5, 0)
-        i6 = make_input("")
-        form.addWidget(i6, 5, 1); form.addWidget(QLabel("(years)"), 5, 2)
+        # 7 — Analysis Period
+        label = QLabel("Analysis Period")
+        input7 = QLineEdit()
+        input7.setValidator(QIntValidator(input7))
+        self.widgets.append(input7)
+        input7.setFixedWidth(field_width)
+        input7.setText("50")
+        grid.addWidget(label, 6, 0)
+        grid.addWidget(input7, 6, 1)
+        grid.addWidget(QLabel("(years)"), 6, 2)
 
-        form.addWidget(QLabel("Analysis Period"), 6, 0)
-        i7 = make_input("50")
-        i7.setValidator(QIntValidator(i7))
-        form.addWidget(i7, 6, 1); form.addWidget(QLabel("(years)"), 6, 2)
-        def collect_data(self):
+        self.general_layout.addLayout(grid)
+        self.general_layout.addStretch(1)
+        self.scroll_content_layout.addWidget(self.general_widget)
 
-            data = {
-                KEY_DISCOUNT_RATE_IA: 0.0 if not self.widgets[0].text() else float(self.widgets[0].text())/100,
-                KEY_INFLATION_RATE: 0.0 if not self.widgets[1].text() else float(self.widgets[1].text())/100,
-                KEY_INTEREST_RATE: 0.0 if not self.widgets[2].text() else float(self.widgets[2].text())/100,
-                KEY_INVESTMENT_RATIO: 0.0 if not self.widgets[3].text() else float(self.widgets[3].text()),
-                KEY_DESIGN_LIFE: 0 if not self.widgets[4].text() else int(self.widgets[4].text()),
-                KEY_CONSTR_TIME: 0.0 if not self.widgets[5].text() else float(self.widgets[5].text()),
-                KEY_ANALYSIS_PERIOD: 0 if not self.widgets[6].text() else int(self.widgets[6].text()),
-            }
+        # Buttons
+        self.button_h_layout = QHBoxLayout()
+        self.button_h_layout.addStretch(6)
 
-            print("\nCollected Data:")
-            pprint(data)
+        back_button = QPushButton("Back")
+        back_button.setObjectName("nav_button")
+        back_button.clicked.connect(lambda: self.back.emit(KEY_FINANCIAL))
+        self.button_h_layout.addWidget(back_button)
 
-            # SAVE DATA TO DB
-            self.database_manager.financial_data = data
+        next_button = QPushButton("Next")
+        next_button.setObjectName("nav_button")
+        next_button.clicked.connect(self.collect_data)
+        next_button.clicked.connect(lambda: self.next.emit(KEY_FINANCIAL))
+        self.button_h_layout.addWidget(next_button)
 
-            # CALCULATE TIME COST
-            time_cost = self.database_manager.calculate_time_cost()
-            print("TIME COST =", time_cost)
-
-            # ---- RUN REPORT ----
-            try:
-
-                # build logo absolute path
-                root = Path(__file__).resolve().parents[2]
-                logo_path = root / "desktop_app" / "resources" / "osbridge_logo.png"
-
-                pdf_file = generate(
-                    data=data,
-                    time_cost=time_cost,
-                    logo_path=str(logo_path),
-                    filename="financial_lcca_report"
-                )
-                print("PDF saved at:", pdf_file)
-            except Exception as e:
-                print("❌ PDF FAILED:", e)
-        self.scroll_layout.addWidget(self.form_widget)
-
-        # ---------- NAV BUTTONS ----------
-        btn_layout = QHBoxLayout()
-        btn_layout.addStretch(5)
-
-        back = QPushButton("Back")
-        back.setObjectName("nav_button")
-        back.clicked.connect(lambda: self.back.emit(KEY_FINANCIAL))
-        btn_layout.addWidget(back)
-
-        next_btn = QPushButton("Next")
-        next_btn.setObjectName("nav_button")
-        next_btn.clicked.connect(self.collect_data)
-        next_btn.clicked.connect(lambda: self.next.emit(KEY_FINANCIAL))
-        btn_layout.addWidget(next_btn)
-
-        self.scroll_layout.addLayout(btn_layout)
-        self.scroll_layout.addItem(QSpacerItem(0, 20))
-
-    def collect_data(self):
-        """ Read UI values + save + trigger PDF """
-        data = {
-            KEY_DISCOUNT_RATE_IA: float(self.widgets[0].text() or 0) / 100,
-            KEY_INFLATION_RATE: float(self.widgets[1].text() or 0) / 100,
-            KEY_INTEREST_RATE: float(self.widgets[2].text() or 0) / 100,
-            KEY_INVESTMENT_RATIO: float(self.widgets[3].text() or 0),
-            KEY_DESIGN_LIFE: int(self.widgets[4].text() or 0),
-            KEY_CONSTR_TIME: float(self.widgets[5].text() or 0),
-            KEY_ANALYSIS_PERIOD: int(self.widgets[6].text() or 0),
-        }
-
-        print("\nCollected Data:")
-        print(data)
-
-        self.database_manager.financial_data = data
-        time_cost = self.database_manager.calculate_time_cost()
-        print("TIME COST =", time_cost)
-
-        # ------- CALL REPORT -------
-        from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
-from pprint import pprint
-from pathlib import Path
-from osbridgelcca.reporting.financial_report_bridge import generate
-        pdf_path = generate_financial_pdf(data, time_cost)
-        print("PDF Saved:", pdf_path)
-
+        self.scroll_content_layout.addLayout(self.button_h_layout)
+        left_panel_vlayout.addWidget(self.scroll_area)
 
     def close_widget(self):
         self.closed.emit()
         self.setParent(None)
+
+    def collect_data(self):
+        from pprint import pprint
+        data = {
+            KEY_DISCOUNT_RATE_IA: float(self.widgets[0].text()) / 100 if self.widgets[0].text() else 0.0,
+            KEY_INFLATION_RATE: float(self.widgets[1].text()) / 100 if self.widgets[1].text() else 0.0,
+            KEY_INTEREST_RATE: float(self.widgets[2].text()) / 100 if self.widgets[2].text() else 0.0,
+            KEY_INVESTMENT_RATIO: float(self.widgets[3].text()) if self.widgets[3].text() else 0.0,
+            KEY_DESIGN_LIFE: int(self.widgets[4].text()) if self.widgets[4].text() else 0,
+            KEY_CONSTR_TIME: float(self.widgets[5].text()) if self.widgets[5].text() else 0.0,
+            KEY_ANALYSIS_PERIOD: int(self.widgets[6].text()) if self.widgets[6].text() else 0,
+        }
+
+        print("\nCollected Data:")
+        pprint(data)
+        print()
+
+        # Save
+        self.database_manager.financial_data = data
+        time_cost = self.database_manager.calculate_time_cost()
+        print("3.Time Cost: ", time_cost)
+
+        # ---- Call PDF ----
+        try:
+            from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
+            pdf_path = generate_financial_pdf(data, time_cost)
+            print("PDF Generated:", pdf_path)
+        except Exception as e:
+            print("⚠ PDF Generation FAILED:", e)
