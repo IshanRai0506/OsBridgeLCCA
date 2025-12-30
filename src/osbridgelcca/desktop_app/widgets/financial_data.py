@@ -89,23 +89,23 @@ class FinancialData(QWidget):
         from osbridgelcca.reporting.financial_report_bridge import generate_financial_pdf
 
         data = {
-             "Discount Rate(Inflation Adjusted)": float(self.widgets[0].text())/100,
-             "Inflation Rate": float(self.widgets[1].text())/100,
-             "Interest Rate": float(self.widgets[2].text())/100,
-             "Investment Ratio": float(self.widgets[3].text()),
-             "Design Life": int(self.widgets[4].text()),
-             "Time for Construction of Base Project": float(self.widgets[5].text()),
-             "Analysis Period": int(self.widgets[6].text()),
-    }
+            "Discount Rate(Inflation Adjusted)": float(self.widgets[0].text())/100,
+            "Inflation Rate": float(self.widgets[1].text())/100,
+            "Interest Rate": float(self.widgets[2].text())/100,
+            "Investment Ratio": float(self.widgets[3].text()),
+            "Design Life": int(self.widgets[4].text()),
+            "Time for Construction of Base Project": float(self.widgets[5].text()),
+            "Analysis Period": int(self.widgets[6].text()),
+        }
 
-         print("\nCollected Data:")
-         pprint(data)
+        print("\nCollected Data:")
+        pprint(data)
 
-         self.database_manager.financial_data = data
-         time_cost = self.database_manager.calculate_time_cost()
-         print("TIME COST =", time_cost)
+        self.database_manager.financial_data = data
+        time_cost = self.database_manager.calculate_time_cost()
+        print("TIME COST =", time_cost)
 
-         try:
-             generate_financial_pdf(data, time_cost)
-         except Exception as e:
-             print("⚠ PDF ERROR:", e)
+        try:
+            generate_financial_pdf(data, time_cost)
+        except Exception as e:
+            print("⚠ PDF ERROR:", e)
