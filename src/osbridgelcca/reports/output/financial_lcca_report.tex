@@ -6,58 +6,67 @@
 \usepackage{tabularx}
 \usepackage{setspace}
 
-% --- Colors ---
+% ---- OSBridge Brand Color ----
 \definecolor{osgreen}{HTML}{285A23}
 
-% --- Header ---
+% ---- HEADER STYLE ----
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 
-\fancyhead[L]{\includegraphics[height=1.2cm]{C:/Users/ishan/OsBridgeLCCA/src/osbridgelcca/desktop_app/resources/osbridge_logo.png}}
-\fancyhead[C]{\vspace{0.3cm}\textbf{\fontsize{16pt}{18pt}\selectfont LIFE CYCLE COST ANALYSIS REPORT}}
+% Header – logo left, title centered
+\fancyhead[L]{\includegraphics[height=1cm]{C:/Users/ishan/OsBridgeLCCA/src/osbridgelcca/desktop_app/resources/osbridge_logo.png}}
+\fancyhead[C]{\vspace{-0.3cm}\textbf{\Large LIFE CYCLE COST ANALYSIS REPORT}}
 
-% Footer
-\fancyfoot[C]{\textcolor{gray}{© OSBridge-LCCA – Page \thepage}}
+% Footer – generated text + page number
+\fancyfoot[C]{\footnotesize © OSBridge-LCCA – Page \thepage}
+\fancyfoot[L]{\footnotesize Generated automatically by OSBridge-LCCA}
 
 \begin{document}
-\vspace*{1.5cm}
 
-% --- Banner ---
-\noindent
-\colorbox{osgreen}{\parbox{\dimexpr\linewidth-2\fboxsep}{
-    \centering
-    \textcolor{white}{\textbf{FINANCIAL REPORT}}
-}}
+\vspace*{2.4cm}
 
-\vspace{1.2cm}
-
-% --- DETAILS TABLE ---
+% ---- FINANCIAL REPORT HEADER ----
 \begin{center}
-\begin{tabularx}{0.85\linewidth}{|l|X|}
-\hline
-\textbf{Analysis Period} & 50 years \\ \hline
-\textbf{Design Life} & 50 years \\ \hline
-\textbf{Discount Rate (Inflation Adjusted)} & 0.067 \\ \hline
-\textbf{Inflation Rate} & 0.051500000000000004 \\ \hline
-\textbf{Interest Rate} & 0.0775 \\ \hline
-\textbf{Investment Ratio} & 0.5 \\ \hline
-\textbf{Construction Duration} & 78.0 days \\ \hline
-\end{tabularx}
+\colorbox{osgreen}{\parbox{0.85\linewidth}{
+    \centering \textcolor{white}{\bfseries FINANCIAL REPORT}
+}}
 \end{center}
 
-\vspace{1.6cm}
+\vspace{1cm}
 
-% --- Calc Values ---
-{\setstretch{1.3}
-\noindent\textbf{\Large Calculated Values} \\[0.4cm]
-\textbf{Time-Cost:} \ \ 23346348.13485
-}
+% ---- TABLE DATA ----
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Analysis Period} & 50 years \\
+\hline
+\textbf{Design Life} & 50 years \\
+\hline
+\textbf{Discount Rate (Inflation Adjusted)} & 0.067 \\
+\hline
+\textbf{Inflation Rate} & 0.051500000000000004 \\
+\hline
+\textbf{Interest Rate} & 0.0775 \\
+\hline
+\textbf{Investment Ratio} & 0.5 \\
+\hline
+\textbf{Construction Duration} & 78.0 days \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{1.7cm}
+
+% ---- CALCULATED VALUES ----
+\begin{center}
+\Large \textbf{Calculated Values}
+\end{center}
+
+\begin{center}
+\textbf{Time-Cost:} 23346348.13485
+\end{center}
 
 \vfill
-
-\begin{center}
-{\small Generated automatically by OSBridge-LCCA}
-\end{center}
 
 \end{document}
