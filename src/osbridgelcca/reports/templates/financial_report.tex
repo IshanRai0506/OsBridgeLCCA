@@ -6,58 +6,67 @@
 \usepackage{tabularx}
 \usepackage{setspace}
 
-% --- Colors ---
+% ---- OSBridge Brand Color ----
 \definecolor{osgreen}{HTML}{285A23}
 
-% --- Header ---
+% ---- HEADER STYLE ----
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
 
-\fancyhead[L]{\includegraphics[height=1.2cm]{<<LOGO_PATH>>}}
-\fancyhead[C]{\vspace{0.3cm}\textbf{\fontsize{16pt}{18pt}\selectfont LIFE CYCLE COST ANALYSIS REPORT}}
+% Header – logo left, title centered
+\fancyhead[L]{\includegraphics[height=1cm]{<<LOGO_PATH>>}}
+\fancyhead[C]{\vspace{-0.3cm}\textbf{\Large LIFE CYCLE COST ANALYSIS REPORT}}
 
-% Footer
-\fancyfoot[C]{\textcolor{gray}{© OSBridge-LCCA – Page \thepage}}
+% Footer – generated text + page number
+\fancyfoot[C]{\footnotesize © OSBridge-LCCA – Page \thepage}
+\fancyfoot[L]{\footnotesize Generated automatically by OSBridge-LCCA}
 
 \begin{document}
-\vspace*{1.5cm}
 
-% --- Banner ---
-\noindent
-\colorbox{osgreen}{\parbox{\dimexpr\linewidth-2\fboxsep}{
-    \centering
-    \textcolor{white}{\textbf{FINANCIAL REPORT}}
-}}
+\vspace*{2.4cm}
 
-\vspace{1.2cm}
-
-% --- DETAILS TABLE ---
+% ---- FINANCIAL REPORT HEADER ----
 \begin{center}
-\begin{tabularx}{0.85\linewidth}{|l|X|}
-\hline
-\textbf{Analysis Period} & <<Analysis Period>> years \\ \hline
-\textbf{Design Life} & <<Design Life>> years \\ \hline
-\textbf{Discount Rate (Inflation Adjusted)} & <<Discount Rate(Inflation Adjusted)>> \\ \hline
-\textbf{Inflation Rate} & <<Inflation Rate>> \\ \hline
-\textbf{Interest Rate} & <<Interest Rate>> \\ \hline
-\textbf{Investment Ratio} & <<Investment Ratio>> \\ \hline
-\textbf{Construction Duration} & <<Time for Construction of Base Project>> days \\ \hline
-\end{tabularx}
+\colorbox{osgreen}{\parbox{0.85\linewidth}{
+    \centering \textcolor{white}{\bfseries FINANCIAL REPORT}
+}}
 \end{center}
 
-\vspace{1.6cm}
+\vspace{1cm}
 
-% --- Calc Values ---
-{\setstretch{1.3}
-\noindent\textbf{\Large Calculated Values} \\[0.4cm]
-\textbf{Time-Cost:} \ \ <<TIME_COST>>
-}
+% ---- TABLE DATA ----
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Analysis Period} & <<Analysis Period>> years \\
+\hline
+\textbf{Design Life} & <<Design Life>> years \\
+\hline
+\textbf{Discount Rate (Inflation Adjusted)} & <<Discount Rate(Inflation Adjusted)>> \\
+\hline
+\textbf{Inflation Rate} & <<Inflation Rate>> \\
+\hline
+\textbf{Interest Rate} & <<Interest Rate>> \\
+\hline
+\textbf{Investment Ratio} & <<Investment Ratio>> \\
+\hline
+\textbf{Construction Duration} & <<Time for Construction of Base Project>> days \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{1.7cm}
+
+% ---- CALCULATED VALUES ----
+\begin{center}
+\Large \textbf{Calculated Values}
+\end{center}
+
+\begin{center}
+\textbf{Time-Cost:} <<TIME_COST>>
+\end{center}
 
 \vfill
-
-\begin{center}
-{\small Generated automatically by OSBridge-LCCA}
-\end{center}
 
 \end{document}
