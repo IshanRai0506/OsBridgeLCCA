@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QCoreApplication, Qt, QSize, Signal
 from PySide6.QtWidgets import (QHBoxLayout, QPushButton, QLineEdit, QComboBox, QGridLayout, QWidget, QLabel, QVBoxLayout, QScrollArea, QSpacerItem, QSizePolicy, QFrame)
 from PySide6.QtGui import QIcon
-from ..utils.data import *
+from osbridgelcca.desktop_app.widgets.utils.data import *
 import sys
 
 class ComponentWidget(QWidget):
@@ -308,10 +308,10 @@ class CarbonEmissionData(QWidget):
                 background: none;
             }
             QScrollBar::up-arrow:vertical {
-                image: url(resources/arrow_up.png);
+                image: url(:/images/arrow_up.png);
             }
             QScrollBar::down-arrow:vertical {
-                image: url(resources/arrow_down.png);
+                image: url(:/images/arrow_down.png);
             }
 
             QScrollBar::add-line:vertical:hover, QScrollBar::sub-line:vertical:hover {
@@ -375,7 +375,7 @@ class CarbonEmissionData(QWidget):
                 padding-right: 5px;
             }
             QComboBox::down-arrow {
-                image: url(resources/country_arrow.png);
+                image: url(:/images/country_arrow.png);
                 width: 30px;
                 height: 30px;
             }

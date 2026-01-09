@@ -1,6 +1,6 @@
-from .utils.input_validation import validate_input
-from .vehicle_types import big_cars, buses, hcv, lcv, mcv, small_cars, two_wheeler
-from .utils import post_processor as pp
+from osbridgelcca.desktop_app.widgets.utils.core.voc.utils.input_validation import validate_input
+from osbridgelcca.desktop_app.widgets.utils.core.voc.vehicle_types import big_cars, buses, hcv, lcv, mcv, small_cars, two_wheeler
+from osbridgelcca.desktop_app.widgets.utils.core.voc.utils import post_processor as pp
 import sys
 
 # Map vehicle_info keys to their model modules

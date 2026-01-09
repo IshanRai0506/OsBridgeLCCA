@@ -4,12 +4,13 @@ from PySide6.QtWidgets import (QHBoxLayout, QPushButton, QTextEdit, QWidget, QLa
 from PySide6.QtGui import QIcon, QTextDocument
 import sys
 import os
-from widgets.structure_works_data.foundation_widget import Foundation
-from widgets.structure_works_data.super_structure_widget import SuperStructure
-from widgets.structure_works_data.sub_structure_widget import SubStructure
-from widgets.structure_works_data.auxiliary_works_widget import AuxiliaryWorks
+from osbridgelcca.desktop_app.widgets.structure_works_data.foundation_widget import Foundation
+from osbridgelcca.desktop_app.widgets.structure_works_data.super_structure_widget import SuperStructure
+from osbridgelcca.desktop_app.widgets.structure_works_data.sub_structure_widget import SubStructure
+from osbridgelcca.desktop_app.widgets.structure_works_data.auxiliary_works_widget import AuxiliaryWorks
 from PySide6.QtWidgets import QStackedWidget
-from .utils.data import *
+from osbridgelcca.desktop_app.widgets.utils.data import *
+from osbridgelcca.desktop_app.resources.resources_rc import *
 
 class ProjectDetailsLeft(QWidget):
     closed = Signal()
@@ -84,10 +85,10 @@ class ProjectDetailsLeft(QWidget):
                 background: none;
             }
             QScrollBar::up-arrow:vertical {
-                image: url(resources/arrow_up.png);
+                image: url(:/images/arrow_up.png);
             }
             QScrollBar::down-arrow:vertical {
-                image: url(resources/arrow_down.png);
+                image: url(:/images/arrow_down.png);
             }
             QScrollBar::add-line:vertical:hover, QScrollBar::sub-line:vertical:hover {
                 background: #D0D0D0;
@@ -166,7 +167,7 @@ class ProjectDetailsLeft(QWidget):
 
         top_h_layout_left_panel = QHBoxLayout()
         top_button_left_panel = QPushButton("Project Details Window")
-        top_button_left_panel.setIcon(QIcon("resources/close.png"))
+        top_button_left_panel.setIcon(QIcon(":/images/close.png"))
         top_button_left_panel.setIconSize(QSize(13, 13))
         top_button_left_panel.setObjectName("top_button_left_panel")
         top_button_left_panel.setLayoutDirection(Qt.RightToLeft)
@@ -217,8 +218,8 @@ class ProjectDetailsLeft(QWidget):
         scroll_content_layout.addWidget(header_separator)
 
         # Define icons for the four states of category buttons
-        unselected_unexpanded_icon = QIcon("resources/play-button-arrowhead.png")
-        unselected_sub_icon = QIcon("resources/play-button-arrowhead.png")
+        unselected_unexpanded_icon = QIcon(":/images/play_button_unselected.png")
+        unselected_sub_icon = QIcon(":/images/play_button_unselected.png")
 
         self.current_selected_button = None
         self.all_param_buttons = {}
@@ -333,7 +334,7 @@ class ProjectDetailsLeft(QWidget):
             b.style().unpolish(b)
             b.style().polish(b)
             if b.property("class") == "subcategory_button":
-                b.setIcon(QIcon("resources/play-button-arrowhead.png"))
+                b.setIcon(QIcon(":/images/play_button_unselected.png"))
             else:
                 self.update_button_icon(b)
             
@@ -346,7 +347,7 @@ class ProjectDetailsLeft(QWidget):
         button_clicked.style().unpolish(button_clicked)
         button_clicked.style().polish(button_clicked)
         if button_clicked.property("class") == "subcategory_button":
-            button_clicked.setIcon(QIcon("resources/play-button-selected.png"))
+            button_clicked.setIcon(QIcon(":/images/play_button_selected.png"))
         else:
             self.update_button_icon(button_clicked)
         self.current_selected_button = button_clicked
@@ -360,13 +361,13 @@ class ProjectDetailsLeft(QWidget):
         is_selected = button.property("selected")
         is_expanded = button.property("expanded")
         if is_selected and is_expanded:
-            button.setIcon(QIcon("resources/arrow_down_selected.png"))
+            button.setIcon(QIcon(":/images/arrow_down_selected.png"))
         elif is_selected:
-            button.setIcon(QIcon("resources/play-button-selected.png"))
+            button.setIcon(QIcon(":/images/play_button_selected.png"))
         elif is_expanded:
-            button.setIcon(QIcon("resources/arrow_down.png"))
+            button.setIcon(QIcon(":/images/arrow_down.png"))
         else:
-            button.setIcon(QIcon("resources/play-button-arrowhead.png"))
+            button.setIcon(QIcon(":/images/play_button_unselected.png"))
         button.setIconSize(QSize(10, 10))
 
     def show_structure_widget(self, name, btn):

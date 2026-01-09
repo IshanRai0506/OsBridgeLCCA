@@ -3,7 +3,8 @@ from PySide6.QtCore import QCoreApplication, QSize, Qt, QPropertyAnimation, QEas
 from PySide6.QtGui import (QIcon)
 from PySide6.QtWidgets import (QHBoxLayout, QTextEdit, QScrollArea, QSpacerItem, QSizePolicy,
     QPushButton, QWidget, QLabel, QVBoxLayout, QGridLayout, QLineEdit, QComboBox)
-from .utils.data import *
+from osbridgelcca.desktop_app.widgets.utils.data import *
+from osbridgelcca.desktop_app.resources.resources_rc import *
 import sys
 
 class ProjectDetailsWidget(QWidget):
@@ -72,10 +73,10 @@ class ProjectDetailsWidget(QWidget):
                 background: none;
             }
             QScrollBar::up-arrow:vertical {
-                image: url(resources/arrow_up.png);
+                image: url(:/images/arrow_up.png);
             }
             QScrollBar::down-arrow:vertical {
-                image: url(resources/arrow_down.png);
+                image: url(:/images/arrow_down.png);
             }
             QScrollBar::add-line:vertical:hover, QScrollBar::sub-line:vertical:hover {
                 background: #D0D0D0;
@@ -125,7 +126,7 @@ class ProjectDetailsWidget(QWidget):
         top_h_layout_left_panel = QHBoxLayout()
         self.top_button_right_panel = QPushButton("Project Details Window      ")
         self.top_button_right_panel.setObjectName("top_button_right_panel")
-        self.top_button_right_panel.setIcon(QIcon("resources/close.png"))
+        self.top_button_right_panel.setIcon(QIcon(":/images/close.png"))
         self.top_button_right_panel.setIconSize(QSize(13, 13))
         self.top_button_right_panel.setLayoutDirection(Qt.RightToLeft)
         self.top_button_right_panel.clicked.connect(self.close_widget)
@@ -146,8 +147,8 @@ class ProjectDetailsWidget(QWidget):
         self.general_info_button = QPushButton("   General Information")
         self.general_info_button.setObjectName("general_info")
         self.general_info_button.setCursor(Qt.PointingHandCursor)
-        self.unactive_arrow_icon = QIcon("resources/play-button-arrowhead.png")
-        self.active_arrow_icon = QIcon("resources/arrow_down.png")
+        self.unactive_arrow_icon = QIcon(":/images/play_button_unselected.png")
+        self.active_arrow_icon = QIcon(":/images/arrow_down.png")
         self.general_info_button.setIcon(self.unactive_arrow_icon)
         self.general_info_button.setIconSize(QSize(10, 10))
         self.general_info_button.setLayoutDirection(Qt.LeftToRight)
@@ -267,7 +268,7 @@ class ProjectDetailsWidget(QWidget):
                 padding-right: 5px;
             }
             QComboBox::down-arrow {
-                image: url(resources/country_arrow.png);
+                image: url(:/images/country_arrow.png);
                 width: 18px;
                 height: 18px;
             }
@@ -317,8 +318,8 @@ class ProjectDetailsWidget(QWidget):
         self.general_widget.setMaximumHeight(0)
         self.general_widget.hide()
         # Input Parameters Section
-        self.input_param_unactive_icon = QIcon("resources/play-button-arrowhead.png")
-        self.input_param_active_icon = QIcon("resources/arrow_down.png")
+        self.input_param_unactive_icon = QIcon(":/images/play_button_unselected.png")
+        self.input_param_active_icon = QIcon(":/images/arrow_down.png")
         self.input_param_button_css_inactive = """
             QPushButton#parameter_button {
               background-color: transparent;
@@ -389,12 +390,12 @@ class ProjectDetailsWidget(QWidget):
             KEY_MAINTAINANCE_REPAIR,
             KEY_DEMOLITION_RECYCLE
         ]
-        self.selected_icon = QIcon("resources/selected_icon.png")
+        self.selected_icon = QIcon(":/images/play_button_selected.png")
         self.param_buttons = []
         for label in button_labels:
             btn = QPushButton(f"   {label}")
             btn.setObjectName("parameter_button")
-            btn.setIcon(QIcon("resources/play-button-arrowhead.png"))
+            btn.setIcon(QIcon(":/images/play_button_unselected.png"))
             btn.setIconSize(QSize(10, 10))
             btn.setCursor(Qt.PointingHandCursor)
             btn.setLayoutDirection(Qt.LeftToRight)
@@ -419,7 +420,7 @@ class ProjectDetailsWidget(QWidget):
         scroll_content_layout.insertWidget(2, self.input_param_widget)
         self.output_button = QPushButton("   Outputs")
         self.output_button.setObjectName("output_button")
-        self.output_button.setIcon(QIcon("resources/play-button-arrowhead.png"))
+        self.output_button.setIcon(QIcon(":/images/play_button_unselected.png"))
         self.output_button.setIconSize(QSize(10, 10))
         self.output_button.setLayoutDirection(Qt.LeftToRight)
         scroll_content_layout.insertWidget(3, self.output_button)
@@ -474,7 +475,7 @@ class ProjectDetailsWidget(QWidget):
             if btn == selected_btn:
                 btn.setIcon(self.selected_icon)
             else:
-                btn.setIcon(QIcon("resources/play-button-arrowhead.png"))
+                btn.setIcon(QIcon(":/images/play_button_unselected.png"))
 
     def close_widget(self):
         self.closed.emit()

@@ -1,6 +1,6 @@
 import sqlite3
 from typing import List, Dict, Tuple
-from .cost_component import ( BearingAndExpansionJointReplacementCost, CarbonEmissionDueToRerouting, DemolitionCarbonCost, DemolitionCarbonReroutingCost,
+from osbridgelcca.desktop_app.widgets.utils.cost_component import ( BearingAndExpansionJointReplacementCost, CarbonEmissionDueToRerouting, DemolitionCarbonCost, DemolitionCarbonReroutingCost,
                                 InitialConstructionCost, MajorInspectionCost, MajorRepairCost,
                                 MajorRepairRelCarbonEmissionCost, TimeCost, RoadUserCost,
                                 AdditionalCarbonEmissionCost, PeriodicMaintenanceCost,
@@ -8,11 +8,8 @@ from .cost_component import ( BearingAndExpansionJointReplacementCost, CarbonEmi
                                 DemolitionCost, RecyclingCost, ReconstructionCost,
                                 PeriodicMaintenanceCarbonCost
 )
-from .data import *
-from .IRC_SP_30 import IRC_SP_30
-
-# from .core.main import calc_voc
-
+from osbridgelcca.desktop_app.widgets.utils.data import *
+from osbridgelcca.desktop_app.widgets.utils.IRC_SP_30 import IRC_SP_30
 
 class DatabaseManager:
     """Database manager for Structure Works Data"""

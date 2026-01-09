@@ -5,6 +5,7 @@ from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import (QHBoxLayout, QTextEdit, QScrollArea, QSpacerItem, QSizePolicy,
     QPushButton, QWidget, QLabel, QVBoxLayout, QGridLayout, QLineEdit, QComboBox, QCheckBox)
 import sys
+from osbridgelcca.desktop_app.resources.resources_rc import *
 
 class ComparisonWidget(QWidget):
     closed = Signal()
@@ -72,10 +73,10 @@ class ComparisonWidget(QWidget):
                 background: none;
             }
             QScrollBar::up-arrow:vertical {
-                image: url(resources/arrow_up.png);
+                image: url(:/images/arrow_up.png);
             }
             QScrollBar::down-arrow:vertical {
-                image: url(resources/arrow_down.png);
+                image: url(:/images/arrow_down.png);
             }
             QScrollBar::add-line:vertical:hover, QScrollBar::sub-line:vertical:hover {
                 background: #D0D0D0;
@@ -154,7 +155,7 @@ class ComparisonWidget(QWidget):
         top_h_layout = QHBoxLayout()
         self.top_button_comparison_panel = QPushButton("Comparison Window   ")
         self.top_button_comparison_panel.setObjectName("top_button_comparison_panel")
-        self.top_button_comparison_panel.setIcon(QIcon("resources/close.png"))
+        self.top_button_comparison_panel.setIcon(QIcon(":/images/close.png"))
         self.top_button_comparison_panel.setIconSize(QSize(13, 13))
         self.top_button_comparison_panel.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
         self.top_button_comparison_panel.clicked.connect(self.close_widget)

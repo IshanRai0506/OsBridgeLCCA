@@ -9,27 +9,26 @@ from PySide6.QtGui import (QAction,QFont, QFontDatabase, QIcon)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QTextEdit, QScrollArea, QSpacerItem, QSizePolicy,
     QMenu, QMenuBar, QPushButton, QWidget, QLabel, QVBoxLayout, QGridLayout, QLineEdit, QComboBox)
 
-from widgets.title_bar import CustomTitleBar
-from widgets.project_details_right_widget import ProjectDetailsWidget
-from widgets.tutorial_widget_left import TutorialWidget
-from widgets.results_widget import ResultsWidget
-from widgets.comparison_widget import ComparisonWidget
-from widgets.structure_works_data.foundation_widget import Foundation
-from widgets.structure_works_data.super_structure_widget import SuperStructure
-from widgets.structure_works_data.sub_structure_widget import SubStructure
-from widgets.structure_works_data.auxiliary_works_widget import AuxiliaryWorks
-from widgets.financial_data import FinancialData
-from widgets.carbon_emission_data.carbon_emission_data import CarbonEmissionData
-from widgets.carbon_emission_data.carbon_emission_cost_data import CarbonEmissionCostData
-from widgets.bridge_and_traffic_data import BridgeAndTrafficData
-from widgets.maintenance_repair_data import MaintenanceRepairData
-from widgets.demolition_and_recycling_data import DemolitionAndRecyclingData
-from widgets.project_details_left_widget import ProjectDetailsLeft
-from widgets.tab_widget import CustomTabWidget
-from widgets.utils.data import *
-from widgets.utils.database import DatabaseManager
-
-from PySide6.QtWidgets import QStackedWidget
+from osbridgelcca.desktop_app.widgets.title_bar import CustomTitleBar
+from osbridgelcca.desktop_app.widgets.project_details_right_widget import ProjectDetailsWidget
+from osbridgelcca.desktop_app.widgets.tutorial_widget_left import TutorialWidget
+from osbridgelcca.desktop_app.widgets.results_widget import ResultsWidget
+from osbridgelcca.desktop_app.widgets.comparison_widget import ComparisonWidget
+from osbridgelcca.desktop_app.widgets.structure_works_data.foundation_widget import Foundation
+from osbridgelcca.desktop_app.widgets.structure_works_data.super_structure_widget import SuperStructure
+from osbridgelcca.desktop_app.widgets.structure_works_data.sub_structure_widget import SubStructure
+from osbridgelcca.desktop_app.widgets.structure_works_data.auxiliary_works_widget import AuxiliaryWorks
+from osbridgelcca.desktop_app.widgets.financial_data import FinancialData
+from osbridgelcca.desktop_app.widgets.carbon_emission_data.carbon_emission_data import CarbonEmissionData
+from osbridgelcca.desktop_app.widgets.carbon_emission_data.carbon_emission_cost_data import CarbonEmissionCostData
+from osbridgelcca.desktop_app.widgets.bridge_and_traffic_data import BridgeAndTrafficData
+from osbridgelcca.desktop_app.widgets.maintenance_repair_data import MaintenanceRepairData
+from osbridgelcca.desktop_app.widgets.demolition_and_recycling_data import DemolitionAndRecyclingData
+from osbridgelcca.desktop_app.widgets.project_details_left_widget import ProjectDetailsLeft
+from osbridgelcca.desktop_app.widgets.tab_widget import CustomTabWidget
+from osbridgelcca.desktop_app.widgets.utils.data import *
+from osbridgelcca.desktop_app.widgets.utils.database import DatabaseManager
+from osbridgelcca.desktop_app.resources.resources_rc import *
 
 class UiMainWindow(object):
     def setupUi(self, MainWindow):
@@ -56,7 +55,7 @@ class UiMainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
 
         # Load and set the Alata Regular font
-        font_id = QFontDatabase.addApplicationFont("resources/AlataRegular.ttf")
+        font_id = QFontDatabase.addApplicationFont(":/font/AlataRegular.ttf")
         if font_id != -1:
             font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
             app_font = QFont(font_family, 10)
@@ -154,16 +153,16 @@ class UiMainWindow(object):
         self.menubar.addMenu(self.menuHelp)
 
         # Create and add actions to File menu with icons
-        self.actionNew = QAction(QIcon("resources/new.svg"), "New", MainWindow)
-        self.actionOpen = QAction(QIcon("resources/open.svg"), "Open", MainWindow)
-        self.actionSave = QAction(QIcon("resources/save.svg"), "Save", MainWindow)
-        self.actionSaveAs = QAction(QIcon("resources/save_as.svg"), "Save As...", MainWindow)
-        self.actionCreateCopy = QAction(QIcon("resources/create_copy.svg"), "Create a Copy", MainWindow)
-        self.actionPrint = QAction(QIcon("resources/print.svg"), "Print", MainWindow)
-        self.actionRename = QAction(QIcon("resources/rename.svg"), "Rename", MainWindow)
-        self.actionExport = QAction(QIcon("resources/export.svg"), "Export", MainWindow)
-        self.actionVersionHistory = QAction(QIcon("resources/version_history.svg"), "Version History", MainWindow)
-        self.actionInfo = QAction(QIcon("resources/info.svg"), "Info", MainWindow)
+        self.actionNew = QAction(QIcon(":/vectors/new.svg"), "New", MainWindow)
+        self.actionOpen = QAction(QIcon(":/vectors/open.svg"), "Open", MainWindow)
+        self.actionSave = QAction(QIcon(":/vectors/save.svg"), "Save", MainWindow)
+        self.actionSaveAs = QAction(QIcon(":/vectors/save_as.svg"), "Save As...", MainWindow)
+        self.actionCreateCopy = QAction(QIcon(":/vectors/create_copy.svg"), "Create a Copy", MainWindow)
+        self.actionPrint = QAction(QIcon(":/vectors/print.svg"), "Print", MainWindow)
+        self.actionRename = QAction(QIcon(":/vectors/rename.svg"), "Rename", MainWindow)
+        self.actionExport = QAction(QIcon(":/vectors/export.svg"), "Export", MainWindow)
+        self.actionVersionHistory = QAction(QIcon(":/vectors/version_history.svg"), "Version History", MainWindow)
+        self.actionInfo = QAction(QIcon(":/vectors/info.svg"), "Info", MainWindow)
 
         # Add actions to File menu
         self.menuFile.addAction(self.actionNew)
@@ -180,10 +179,10 @@ class UiMainWindow(object):
         self.menuFile.addAction(self.actionInfo)
 
         # Create and add actions to Help menu with icons
-        self.actionDocumentation = QAction(QIcon("resources/contact.svg"), "Contact us", MainWindow)
-        self.actionFeedback = QAction(QIcon("resources/feedback.svg"), "Feedback", MainWindow)
-        self.actionVideoTutorial = QAction(QIcon("resources/video_tutorial.svg"), "Video Tutorials", MainWindow)
-        self.actionJoinCommunity = QAction(QIcon("resources/join_community.svg"), "Join our Community", MainWindow)
+        self.actionDocumentation = QAction(QIcon(":/vectors/contact.svg"), "Contact us", MainWindow)
+        self.actionFeedback = QAction(QIcon(":/vectors/feedback.svg"), "Feedback", MainWindow)
+        self.actionVideoTutorial = QAction(QIcon(":/vectors/video_tutorial.svg"), "Video Tutorials", MainWindow)
+        self.actionJoinCommunity = QAction(QIcon(":/vectors/join_community.svg"), "Join our Community", MainWindow)
 
         # Add actions to Help menu
         self.menuHelp.addAction(self.actionDocumentation)
@@ -246,7 +245,7 @@ class UiMainWindow(object):
         # Add buttons to left container
         self.edit_button = QPushButton()
         self.edit_button.setObjectName(u"edit_button")
-        self.edit_button.setIcon(QIcon("resources/edit_button.png"))
+        self.edit_button.setIcon(QIcon(":/images/edit_button.png"))
         self.edit_button.setFixedSize(60, 30)
         self.edit_button.setIconSize(QSize(25, 25))
         self.edit_button.setStyleSheet("""
@@ -267,7 +266,7 @@ class UiMainWindow(object):
         self.file_button= QPushButton()
         self.file_button.setObjectName(u"file_button")
         self.file_button.setFixedSize(50, 30)
-        self.file_button.setIcon(QIcon("resources/file_button.png"))
+        self.file_button.setIcon(QIcon(":/images/file_button.png"))
         self.file_button.setIconSize(QSize(30, 30))
         self.file_button.setStyleSheet("""
             QPushButton {
@@ -287,7 +286,7 @@ class UiMainWindow(object):
         self.save_button = QPushButton()
         self.save_button.setObjectName(u"save_button")
         self.save_button.setFixedSize(40, 30)
-        self.save_button.setIcon(QIcon("resources/save_button.png"))
+        self.save_button.setIcon(QIcon(":/images/save_button.png"))
         self.save_button.setIconSize(QSize(25, 25))
         self.save_button.setStyleSheet("""
             QPushButton {
@@ -300,7 +299,7 @@ class UiMainWindow(object):
                 border: 1px solid #888888;
             }
             QPushButton::menu-indicator {
-                image: url(resources/arrow_down.png);
+                image: url(:/images/arrow_down.png);
                 width: 8px;
                 height: 30px;
                 subcontrol-position: right center;
@@ -421,7 +420,6 @@ class UiMainWindow(object):
             self.current_right_widget = ComparisonWidget()
             self.right_panel_placeholder.layout().addWidget(self.current_right_widget)
             self.current_right_widget.closed.connect(lambda: self.remove_right_widget())
-            print("comparison widget")
         self.compare.clicked.connect(show_comparison_widget)
 
         def show_project_details_widget(widget_name=None):

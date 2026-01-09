@@ -1,5 +1,5 @@
 import pandas as pd
-from .data import *
+from osbridgelcca.desktop_app.widgets.utils.data import *
 
 class IRC_SP_30:
     def __init__(self):

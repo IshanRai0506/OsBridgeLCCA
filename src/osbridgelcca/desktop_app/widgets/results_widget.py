@@ -6,9 +6,10 @@ from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import (QHBoxLayout, QTextEdit, QScrollArea, QSpacerItem, QSizePolicy,
     QPushButton, QWidget, QLabel, QVBoxLayout, QGridLayout, QLineEdit, QComboBox)
 import sys
+from osbridgelcca.desktop_app.resources.resources_rc import *
 
 # using the d3js graphing library to plot the graph, it is downloaded locally and saved in the same directory as that of this graph script
-with open(r"dependencies/d3js.js", "r", encoding="utf-8") as f:
+with open(r"osbridgelcca/desktop_app/dependencies/d3js.js", "r", encoding="utf-8") as f:
     d3_js = f.read()
 
 class ResultsWidget(QWidget):
@@ -77,10 +78,10 @@ class ResultsWidget(QWidget):
                 background: none;
             }
             QScrollBar::up-arrow:vertical {
-                image: url(resources/arrow_up.png);
+                image: url(:/images/arrow_up.png);
             }
             QScrollBar::down-arrow:vertical {
-                image: url(resources/arrow_down.png);
+                image: url(:/images/arrow_down.png);
             }
             QScrollBar::add-line:vertical:hover, QScrollBar::sub-line:vertical:hover {
                 background: #D0D0D0;
@@ -178,14 +179,14 @@ class ResultsWidget(QWidget):
         top_h_layout_left_panel = QHBoxLayout()
         self.top_button_right_panel = QPushButton("Data Window   ")
         self.top_button_right_panel.setObjectName("top_button_right_panel")
-        self.top_button_right_panel.setIcon(QIcon("resources/close.png"))
+        self.top_button_right_panel.setIcon(QIcon(":/images/close.png"))
         self.top_button_right_panel.setIconSize(QSize(13, 13))
         self.top_button_right_panel.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
         self.top_button_right_panel.clicked.connect(self.close_widget)
         
         self.top_button_left_panel = QPushButton("Results Window ")
         self.top_button_left_panel.setObjectName("top_button_right_panel")
-        self.top_button_left_panel.setIcon(QIcon("resources/close.png"))
+        self.top_button_left_panel.setIcon(QIcon(":/images/close.png"))
         self.top_button_left_panel.setIconSize(QSize(13, 13))
         self.top_button_left_panel.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
         self.top_button_left_panel.clicked.connect(self.switch_to_results_widget)
@@ -1090,7 +1091,7 @@ class ResultsWidget(QWidget):
 
         close_btn = QPushButton()
         close_btn.setObjectName("close_card_button")
-        close_btn.setIcon(QIcon("resources/close.png"))
+        close_btn.setIcon(QIcon(":/images/close.png"))
         close_btn.setIconSize(QSize(13, 13))
         header_layout.addWidget(close_btn, 0, Qt.AlignmentFlag.AlignRight)
 
@@ -1892,7 +1893,7 @@ class ResultsWidget(QWidget):
 
         close_btn = QPushButton()
         close_btn.setObjectName("close_card_button")
-        close_btn.setIcon(QIcon("resources/close.png"))
+        close_btn.setIcon(QIcon(":/images/close.png"))
         close_btn.setIconSize(QSize(13, 13))
         header_layout.addWidget(close_btn, 0, Qt.AlignmentFlag.AlignRight)
 

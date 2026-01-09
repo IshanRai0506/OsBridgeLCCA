@@ -4,6 +4,7 @@ from PySide6.QtGui import (QIcon)
 from PySide6.QtWidgets import (QHBoxLayout, QTextEdit, QScrollArea, QSpacerItem, QSizePolicy,
     QPushButton, QWidget, QLabel, QVBoxLayout)
 import sys
+from osbridgelcca.desktop_app.resources.resources_rc import *
 
 class TutorialWidget(QWidget):
     closed = Signal()
@@ -82,10 +83,10 @@ class TutorialWidget(QWidget):
                 background: none;
             }
             QScrollBar::up-arrow:vertical {
-                image: url(resources/arrow_up.png); /* You might need to provide these icons */
+                image: url(:/images/arrow_up.png); /* You might need to provide these icons */
             }
             QScrollBar::down-arrow:vertical {
-                image: url(resources/arrow_down.png);
+                image: url(:/images/arrow_down.png);
             }
 
             QScrollBar::add-line:vertical:hover, QScrollBar::sub-line:vertical:hover {
@@ -165,7 +166,7 @@ class TutorialWidget(QWidget):
 
         top_h_layout_left_panel = QHBoxLayout()
         self.top_button_left_panel = QPushButton("Tutorials     ")
-        self.top_button_left_panel.setIcon(QIcon("resources/close.png"))
+        self.top_button_left_panel.setIcon(QIcon(":/images/close.png"))
         self.top_button_left_panel.setIconSize(QSize(13, 13))
         self.top_button_left_panel.setObjectName("top_button_left_panel")
         self.top_button_left_panel.setLayoutDirection(Qt.RightToLeft)

@@ -2,7 +2,8 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QCoreApplication, Qt, QSize, Signal
 from PySide6.QtWidgets import (QHBoxLayout, QPushButton, QLineEdit, QComboBox, QGridLayout, QWidget, QLabel, QVBoxLayout, QScrollArea, QSpacerItem, QSizePolicy, QFrame)
 from PySide6.QtGui import QIcon, QIntValidator
-from .utils.data import *
+from osbridgelcca.desktop_app.widgets.utils.data import *
+from osbridgelcca.desktop_app.resources.resources_rc import *
 import sys
 import os
 
@@ -85,10 +86,10 @@ class FinancialData(QWidget):
                 background: none;
             }
             QScrollBar::up-arrow:vertical {
-                image: url(resources/arrow_up.png);
+                image: url(:/images/arrow_up.png);
             }
             QScrollBar::down-arrow:vertical {
-                image: url(resources/arrow_down.png);
+                image: url(:/images/arrow_down.png);
             }
 
             QScrollBar::add-line:vertical:hover, QScrollBar::sub-line:vertical:hover {
@@ -172,7 +173,7 @@ class FinancialData(QWidget):
         label1.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         label1_layout.addWidget(label1)
         info_icon = QLabel()
-        info_icon.setPixmap(QIcon("resources/info.svg").pixmap(16, 16))
+        info_icon.setPixmap(QIcon(":/vectors/info.svg").pixmap(16, 16))
         label1_layout.addWidget(info_icon)
         label1_layout.addStretch(1)
         input1 = QLineEdit()

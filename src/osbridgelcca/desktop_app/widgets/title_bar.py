@@ -2,6 +2,7 @@ from PySide6.QtCore import (QSize, Qt)
 from PySide6.QtGui import (QIcon, QPixmap)
 from PySide6.QtWidgets import (QHBoxLayout, QPushButton, QWidget, QLabel)
 from PySide6.QtGui import QMouseEvent
+from osbridgelcca.desktop_app.resources.resources_rc import *
 
 class CustomTitleBar(QWidget):
     """
@@ -53,7 +54,6 @@ class CustomTitleBar(QWidget):
         self.icon_label = QLabel()
         self.icon_label.setFixedSize(30, 30)
         self.icon_label.setStyleSheet("padding: 5px;")
-        # self.icon_label.setPixmap(QPixmap("resources/osdag_logo.svg").scaled(20, 20, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         self.layout.addWidget(self.icon_label)
 
         # Middle: Title (centered)
@@ -76,15 +76,15 @@ class CustomTitleBar(QWidget):
             return btn
 
         # Control buttons
-        self.minimize_button = create_button("resources/window_minimize.svg")
+        self.minimize_button = create_button(":/vectors/window_minimize.svg")
         self.minimize_button.clicked.connect(self.parent_window.showMinimized)
         self.layout.addWidget(self.minimize_button)
 
-        self.maximize_button = create_button("resources/window_maximize.svg")
+        self.maximize_button = create_button(":/vectors/window_maximize.svg")
         self.maximize_button.clicked.connect(self.toggle_maximize_restore)
         self.layout.addWidget(self.maximize_button)
 
-        self.close_button = create_button("resources/window_close.svg", is_close=True)
+        self.close_button = create_button(":/vectors/window_close.svg", is_close=True)
         self.close_button.clicked.connect(self.parent_window.close)
         self.layout.addWidget(self.close_button)
 
@@ -92,10 +92,10 @@ class CustomTitleBar(QWidget):
         self.start_geometry = None
 
     def set_maximize_icon(self):
-        self.maximize_button.setIcon(QIcon(QPixmap.fromImage(QPixmap("resources/window_maximize.svg").toImage())))
+        self.maximize_button.setIcon(QIcon(QPixmap.fromImage(QPixmap(":/vectors/window_maximize.svg").toImage())))
 
     def set_restore_icon(self):
-        self.maximize_button.setIcon(QIcon(QPixmap.fromImage(QPixmap("resources/window_restore.svg").toImage())))
+        self.maximize_button.setIcon(QIcon(QPixmap.fromImage(QPixmap(":/vectors/window_restore.svg").toImage())))
 
     def toggle_maximize_restore(self):
         """Toggles between maximized and normal window states and updates the icon."""

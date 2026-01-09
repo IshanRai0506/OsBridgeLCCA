@@ -31,14 +31,6 @@ class CustomTabWidget(QWidget):
     
     def apply_styles(self):
         """Apply custom styles to the widget"""        
-        # Build absolute path for close button image
-        try:
-            base_dir = os.path.dirname(os.path.abspath(__file__))
-            close_img_path = os.path.join(base_dir, "..", "resources", "close.png")
-            close_img_path = os.path.normpath(close_img_path)
-            close_img_url = close_img_path.replace("\\", "/")  # for Windows compatibility
-        except:
-            close_img_url = ""  # Fallback if image not found
 
         style = f"""
             CustomTabWidget {{
@@ -94,31 +86,17 @@ class CustomTabWidget(QWidget):
             QTabBar::close-button:hover {{
                 border-color: #f44336;
             }}
-        """
-        
-        # If image exists, use it; otherwise use colored button
-        if close_img_url and os.path.exists(close_img_url.replace("file:///", "")):
-            style = style.replace(
-                """QTabBar::close-button {
-                subcontrol-position: right;
-                width: 13px;
-                height: 13px;
-                margin-right: 6px;
-                border: 1px solid #ff5252;
-                border-radius: 6px;
-                color: white;
-                font-weight: bold;
-            }""",
-                f"""QTabBar::close-button {{
-                image: url({close_img_url});
+
+        QTabBar::close-button {{
+                image: url(:/images/close.png);
                 subcontrol-position: right;
                 width: 13px;
                 height: 13px;
                 margin-right: 6px;
                 background: transparent;
                 border: none;
-            }}"""
-            )
+            }}
+            """
         
         self.setStyleSheet(style)
     

@@ -1,5 +1,5 @@
-from .voc import core
-from .voc.congestion import core as congestion_core
+from osbridgelcca.desktop_app.widgets.utils.core.voc import core
+from osbridgelcca.desktop_app.widgets.utils.core.voc.congestion import core as congestion_core
 
 vc = 0.8854
 wpi = {'year': 2024,
